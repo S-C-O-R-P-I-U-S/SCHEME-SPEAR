@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCHEME SPEAR | 3,500+ Government Schemes Master Explorer - Team SCORPIUS (SIH 2026)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            scorpius: {
+              bg: '#0A0E1A',
+              gold: '#FFB800',
+              teal: '#00E5CC',
+            }
+          },
+          fontFamily: {
+            heading: ['Space Grotesk', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Three.js CDN for 3D WebGL Scene -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+      position: relative;
+    }
+
+    /* DAY THEME (White & Executive Saffron Orange + High-Contrast Dark Text) */
+    body.day-mode {
+      background-color: #F8FAFC !important;
+      color: #0F172A !important;
+    }
+    body.day-mode #bg-overlay {
+      background: radial-gradient(circle at 50% 40%, rgba(249, 115, 22, 0.06) 0%, rgba(248, 250, 252, 0.95) 75%, rgba(248, 250, 252, 1) 100%) !important;
+    }
+    body.day-mode #navbar {
+      background-color: rgba(255, 255, 255, 0.95) !important;
+      border-color: #FED7AA !important;
+      box-shadow: 0 4px 20px rgba(234, 88, 12, 0.08) !important;
+    }
+    body.day-mode nav {
+      background-color: #FFFFFF !important;
+      border-color: #CBD5E1 !important;
+    }
+    body.day-mode nav a {
+      color: #1E293B !important;
+    }
+    body.day-mode nav a:hover {
+      color: #EA580C !important;
+      background-color: #FFEDD5 !important;
+    }
+
+    /* Force all text elements in Day Mode to be dark & fully legible */
+    body.day-mode h1, body.day-mode h2, body.day-mode h3, body.day-mode h4, body.day-mode h5, body.day-mode h6,
+    body.day-mode p, body.day-mode span, body.day-mode div, body.day-mode label, body.day-mode li,
+    body.day-mode td, body.day-mode th, body.day-mode dt, body.day-mode dd, body.day-mode b, body.day-mode strong {
+      color: #0F172A;
+    }
+
+    /* Force light Tailwind text utility classes to dark high-contrast text in Day Mode */
+    body.day-mode .text-white,
+    body.day-mode .text-slate-100,
+    body.day-mode .text-slate-200,
+    body.day-mode .text-slate-300,
+    body.day-mode .text-slate-400,
+    body.day-mode .text-gray-100,
+    body.day-mode .text-gray-200,
+    body.day-mode .text-gray-300,
+    body.day-mode .text-gray-400,
+    body.day-mode .text-zinc-100,
+    body.day-mode .text-zinc-200,
+    body.day-mode .text-zinc-300,
+    body.day-mode .text-zinc-400 {
+      color: #1E293B !important;
+    }
+
+    body.day-mode .text-slate-500,
+    body.day-mode .text-slate-600,
+    body.day-mode .text-gray-500,
+    body.day-mode .text-gray-600 {
+      color: #475569 !important;
+    }
+
+    /* Keep button white text crisp on dark/orange buttons */
+    body.day-mode button.bg-gradient-to-r,
+    body.day-mode button.bg-slate-900,
+    body.day-mode button.bg-slate-800,
+    body.day-mode a.bg-gradient-to-r,
+    body.day-mode button.bg-gradient-to-r span,
+    body.day-mode .bg-gradient-to-r span {
+      color: #FFFFFF !important;
+    }
+
+    /* Cards, Modals & Section Container Backgrounds in Day Mode */
+    body.day-mode .tilt-card,
+    body.day-mode #scheme-master-explorer > div,
+    body.day-mode #bank-locator-section > div,
+    body.day-mode #dashboard-section > div,
+    body.day-mode #modal-detail-content,
+    body.day-mode #direct-apply-modal > div,
+    body.day-mode #nodal-officer-modal > div,
+    body.day-mode #smart-loan-modal > div,
+    body.day-mode #eligibility-guidance-modal > div,
+    body.day-mode #intake-modal > div,
+    body.day-mode .bg-slate-900,
+    body.day-mode .bg-slate-950,
+    body.day-mode .bg-slate-900\/80,
+    body.day-mode .bg-slate-900\/90,
+    body.day-mode .bg-slate-950\/60 {
+      background-color: #FFFFFF !important;
+      border-color: #CBD5E1 !important;
+      color: #0F172A !important;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06) !important;
+    }
+    body.day-mode .tilt-card:hover {
+      border-color: #EA580C !important;
+      box-shadow: 0 12px 30px rgba(234, 88, 12, 0.18) !important;
+    }
+
+    /* Inputs and Selects in Day Mode */
+    body.day-mode input, body.day-mode select, body.day-mode textarea {
+      background-color: #F1F5F9 !important;
+      border-color: #CBD5E1 !important;
+      color: #0F172A !important;
+      font-weight: 600 !important;
+    }
+    body.day-mode input::placeholder, body.day-mode select::placeholder {
+      color: #64748B !important;
+    }
+
+    /* Primary Gradient Buttons in Day Mode */
+    body.day-mode button.bg-gradient-to-r {
+      background: linear-gradient(to right, #EA580C, #F97316) !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 6px 18px rgba(234, 88, 12, 0.25) !important;
+    }
+
+    /* Accents & Badges in Day Mode */
+    body.day-mode .text-\[\#FFB800\], body.day-mode .text-amber-400, body.day-mode .text-amber-300 {
+      color: #C2410C !important;
+    }
+    body.day-mode .text-\[\#00E5CC\], body.day-mode .text-teal-400, body.day-mode .text-emerald-400 {
+      color: #0284C7 !important;
+    }
+    body.day-mode .bg-\[\#FFB800\]\/20, body.day-mode .bg-\[\#FFB800\]\/15, body.day-mode .bg-\[\#FFB800\]\/10, body.day-mode .bg-amber-500\/20 {
+      background-color: #FFEDD5 !important;
+      color: #9A3412 !important;
+      border-color: #FDBA74 !important;
+    }
+    body.day-mode .bg-\[\#00E5CC\]\/20, body.day-mode .bg-\[\#00E5CC\]\/15, body.day-mode .bg-\[\#00E5CC\]\/10, body.day-mode .bg-teal-500\/20 {
+      background-color: #E0F2FE !important;
+      color: #0369A1 !important;
+      border-color: #7DD3FC !important;
+    }
+
+    /* NIGHT MODE (Executive Black & Ocean Blue Theme) */
+    body.night-mode {
+      background-color: #060911 !important;
+      color: #F8FAFC !important;
+    }
+    body.night-mode #bg-overlay {
+      background: radial-gradient(circle at 50% 40%, rgba(2, 132, 199, 0.12) 0%, rgba(6, 9, 17, 0.92) 75%, rgba(6, 9, 17, 1) 100%) !important;
+    }
+    body.night-mode #navbar {
+      background-color: rgba(6, 9, 17, 0.95) !important;
+      border-color: rgba(2, 132, 199, 0.35) !important;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.15) !important;
+    }
+    body.night-mode nav {
+      background-color: #0F172A !important;
+      border-color: #1E293B !important;
+    }
+    body.night-mode nav a {
+      color: #CBD5E1 !important;
+    }
+    body.night-mode nav a:hover {
+      color: #38BDF8 !important;
+      background-color: #1E293B !important;
+    }
+    body.night-mode .tilt-card,
+    body.night-mode #scheme-master-explorer > div,
+    body.night-mode #bank-locator-section > div,
+    body.night-mode #dashboard-section > div,
+    body.night-mode #modal-detail-content,
+    body.night-mode #direct-apply-modal > div,
+    body.night-mode #nodal-officer-modal > div,
+    body.night-mode #smart-loan-modal > div,
+    body.night-mode #eligibility-guidance-modal > div,
+    body.night-mode #intake-modal > div {
+      background-color: #0F172A !important;
+      border-color: #1E293B !important;
+      color: #F8FAFC !important;
+      box-shadow: 0 10px 30px rgba(2, 132, 199, 0.12) !important;
+    }
+    body.night-mode .tilt-card:hover {
+      border-color: #0284C7 !important;
+      box-shadow: 0 15px 35px rgba(56, 189, 248, 0.25) !important;
+    }
+    body.night-mode h1, body.night-mode h2, body.night-mode h3, body.night-mode h4, body.night-mode h5 {
+      color: #F8FAFC !important;
+    }
+    body.night-mode p, body.night-mode span.text-slate-300, body.night-mode span.text-slate-400 {
+      color: #94A3B8 !important;
+    }
+    body.night-mode input, body.night-mode select {
+      background-color: #030712 !important;
+      border-color: #1E293B !important;
+      color: #F8FAFC !important;
+    }
+    body.night-mode button.bg-gradient-to-r {
+      background: linear-gradient(to right, #0284C7, #06B6D4) !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35) !important;
+    }
+    body.night-mode .text-\[\#FFB800\], body.night-mode .text-amber-400, body.night-mode .text-amber-300 {
+      color: #38BDF8 !important;
+    }
+    body.night-mode .text-\[\#00E5CC\], body.night-mode .text-teal-400 {
+      color: #22D3EE !important;
+    }
+    body.night-mode .bg-\[\#FFB800\]\/20, body.night-mode .bg-\[\#FFB800\]\/15, body.night-mode .bg-\[\#FFB800\]\/10 {
+      background-color: rgba(2, 132, 199, 0.2) !important;
+      color: #38BDF8 !important;
+      border-color: rgba(2, 132, 199, 0.4) !important;
+    }
+    body.night-mode .bg-\[\#00E5CC\]\/20, body.night-mode .bg-\[\#00E5CC\]\/15, body.night-mode .bg-\[\#00E5CC\]\/10 {
+      background-color: rgba(6, 182, 212, 0.2) !important;
+      color: #67E8F9 !important;
+      border-color: rgba(6, 182, 212, 0.4) !important;
+    }
+    body.night-mode .bg-slate-950, body.night-mode .bg-slate-900 {
+      background-color: #0B1120 !important;
+      border-color: #1E293B !important;
+      color: #F8FAFC !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0A0E1A;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FFB800;
+    }
+  </style>
+</head>
+<body class="day-mode antialiased selection:bg-[#EA580C] selection:text-white">
+
+  <!-- 3D WebGL Canvas Background -->
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+  <div id="bg-overlay" class="fixed inset-0 pointer-events-none z-[1]"></div>
+
+  <!-- Sticky Glassmorphic Navbar -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#hero" class="flex items-center gap-2.5 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#FFB800] to-[#00E5CC] p-0.5 shadow-[0_0_20px_rgba(255,184,0,0.5)] group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-[#0A0E1A] rounded-[10px] flex items-center justify-center font-bold text-[#FFB800]">
+            ⚡
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-white via-amber-200 to-[#FFB800] bg-clip-text text-transparent">
+              SCHEME SPEAR
+            </span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
+              3,500+ INDEX
+            </span>
+          </div>
+          <p class="text-[10px] font-mono text-slate-400 tracking-wider">BY TEAM SCORPIUS • SCHEME SPEAR PLATFORM</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden xl:flex items-center gap-1 px-4 py-1.5 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-800">
+        <a href="#hero" class="px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-[#FFB800] hover:bg-slate-800 rounded-full transition-colors">Home</a>
+        <a href="#scheme-master-explorer" class="px-3 py-1.5 text-xs font-semibold text-[#00E5CC] hover:bg-slate-800 rounded-full transition-colors font-mono">📂 3,500+ Schemes Explorer</a>
+        <a href="#bank-locator-section" class="px-3 py-1.5 text-xs font-semibold text-[#FFB800] hover:bg-slate-800 rounded-full transition-colors font-mono">🏦 Geolocation Bank Finder</a>
+        <a href="#dashboard-section" class="px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800 rounded-full transition-colors font-mono">My Dashboard</a>
+        <a href="#features" class="px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-[#FFB800] hover:bg-slate-800 rounded-full transition-colors">Features</a>
+        <a href="#how-it-works" class="px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-[#FFB800] hover:bg-slate-800 rounded-full transition-colors">How It Works</a>
+      </nav>
+
+      <!-- Right Actions: Theme Toggle & User Profile -->
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="px-3.5 py-2 rounded-xl border border-sky-800 bg-slate-900 text-xs font-mono font-bold text-sky-300 hover:border-sky-400 transition-all cursor-pointer flex items-center gap-1.5 shadow-md">
+          🌊 Night Mode (Ocean Blue)
+        </button>
+
+        <div id="user-nav-area">
+          <button onclick="openProfileIntake()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs flex items-center gap-2 shadow-[0_0_20px_rgba(255,184,0,0.35)] hover:scale-105 transition-all cursor-pointer">
+            ⚡ Profile / Matcher
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="relative min-h-screen pt-32 pb-16 flex flex-col justify-center overflow-hidden z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7 space-y-6 text-left">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFB800]/15 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold font-mono tracking-wider shadow-[0_0_15px_rgba(255,184,0,0.3)]">
+              ⚡ AI-POWERED SCHEME MATCHING ENGINE
+            </span>
+            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00E5CC]/15 border border-[#00E5CC]/40 text-[#00E5CC] text-xs font-bold font-mono tracking-wider shadow-[0_0_15px_rgba(0,229,204,0.3)]">
+              📂 3,500+ GOVERNMENT SCHEMES DATABASE
+            </span>
+          </div>
+
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight leading-[1.08] text-white">
+            Find the <span class="bg-gradient-to-r from-[#FFB800] via-amber-200 to-[#FFD700] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(255,184,0,0.4)]">right support.</span>
+            <br />
+            Take the <span class="bg-gradient-to-r from-[#00E5CC] via-teal-200 to-[#80FFF3] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(0,229,204,0.4)]">right step.</span>
+          </h1>
+
+          <p class="text-lg sm:text-xl text-slate-300 font-light leading-relaxed max-w-2xl">
+            AI-Driven Scheme Matching & Financial Inclusion across 3,500+ Central and State Government Welfare Programs.<br>
+            <span class="text-xs font-mono text-[#00E5CC] uppercase tracking-wider" id="typewriter-text"></span>
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#scheme-master-explorer" class="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-sm flex items-center gap-2 shadow-[0_0_25px_rgba(255,184,0,0.4)] hover:scale-105 transition-all cursor-pointer">
+              Explore 3,500+ Schemes Database 📂
+            </a>
+            <button onclick="openProfileIntake()" class="px-7 py-3.5 rounded-2xl bg-slate-900/90 text-white font-bold text-sm border border-slate-700 hover:border-[#FFB800] flex items-center gap-2 shadow-lg transition-all cursor-pointer">
+              Match My Eligibility ⚡
+            </button>
+          </div>
+
+          <!-- Live Database Stats Row -->
+          <div class="pt-8 border-t border-slate-800/80 grid grid-cols-3 gap-4 max-w-xl">
+            <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md">
+              <div class="text-2xl font-black text-[#FFB800] font-heading">3,500+</div>
+              <div class="text-[11px] font-mono text-slate-400">Total Schemes Mapped</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md">
+              <div class="text-2xl font-black text-[#00E5CC] font-heading">36 States/UTs</div>
+              <div class="text-[11px] font-mono text-slate-400">Geographic Coverage</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md">
+              <div class="text-2xl font-black text-amber-300 font-heading">102 SCAs</div>
+              <div class="text-[11px] font-mono text-slate-400">NSFDC Nodal Partners</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 3D Emblem Container -->
+        <div class="lg:col-span-5 relative flex items-center justify-center">
+          <canvas id="emblem-canvas" class="w-full h-[360px]"></canvas>
+          <div class="absolute bottom-0 px-5 py-2 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-[#FFB800]/40 shadow-[0_0_25px_rgba(255,184,0,0.3)] text-center">
+            <p class="text-xs font-bold text-white font-mono">⚡ TEAM SCORPIUS MASCOT</p>
+            <p class="text-[10px] text-amber-400">3,500+ Scheme Vector Engine</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DEDICATED 3,500+ SCHEME MASTER EXPLORER DASHBOARD -->
+  <section id="scheme-master-explorer" class="py-16 relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-3xl bg-slate-900/90 border border-amber-500/40 p-6 sm:p-10 backdrop-blur-2xl shadow-[0_0_50px_rgba(255,184,0,0.2)]">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 border-b border-slate-800 pb-6">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-[#00E5CC]/20 text-[#00E5CC] border border-[#00E5CC]/40 text-xs font-mono font-bold">
+              FULL DATABASE CATALOG
+            </span>
+            <span class="text-xs font-mono text-slate-400">3,500 SCHEMES INDEXED</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black font-heading text-white mt-2">
+            3,500+ Government Schemes Master Explorer
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Search across 3,500+ Central and State welfare programs with instant filters and page navigation.
+          </p>
+        </div>
+
+        <div class="px-4 py-2 rounded-2xl bg-slate-950 border border-slate-800 text-center font-mono">
+          <div id="total-results-count" class="text-xl font-black text-[#FFB800]">3,500</div>
+          <div class="text-[10px] text-slate-400">Matching Schemes</div>
+        </div>
+      </div>
+
+      <!-- Controls Row: Search Bar & Level Filter -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+        <div class="md:col-span-8">
+          <input 
+            type="text" 
+            id="explorer-search"
+            oninput="handleSearchInput(this.value)"
+            placeholder="🔍 Search 3,500+ schemes by name, keyword (e.g. 'Scholarship', 'Loan', 'SC', 'Farmer', 'Women', 'Mudra', 'IIT')..." 
+            class="w-full px-5 py-3.5 rounded-2xl bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 font-mono text-xs focus:outline-none focus:border-[#FFB800] shadow-inner"
+          >
+        </div>
+
+        <div class="md:col-span-4 flex items-center gap-2">
+          <select 
+            id="level-filter"
+            onchange="handleLevelFilter(this.value)"
+            class="w-full px-4 py-3.5 rounded-2xl bg-slate-950 border border-slate-700 text-xs font-mono text-[#00E5CC] font-bold outline-none"
+          >
+            <option value="ALL">ALL LEVELS (Central & States)</option>
+            <option value="Central">CENTRAL GOVERNMENT SCHEMES</option>
+            <option value="State">STATE GOVERNMENT SCHEMES</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Sector Categories Filter Pills -->
+      <div class="flex flex-wrap gap-2 mb-8" id="explorer-categories">
+        <button onclick="handleCategoryFilter('ALL', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-bold font-mono bg-[#FFB800] text-black">ALL SECTORS (3,500)</button>
+        <button onclick="handleCategoryFilter('Education & Scholarships', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-bold font-mono bg-slate-950 border border-slate-800 text-slate-300 hover:text-white">🎓 Education & Scholarships</button>
+        <button onclick="handleCategoryFilter('Business & Entrepreneurship', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-bold font-mono bg-slate-950 border border-slate-800 text-slate-300 hover:text-white">💼 Business & Micro-Loans</button>
+        <button onclick="handleCategoryFilter('Agriculture & Farming', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-bold font-mono bg-slate-950 border border-slate-800 text-slate-300 hover:text-white">🌾 Agriculture & Farming</button>
+        <button onclick="handleCategoryFilter('Social Welfare & Health', this)" class="cat-pill px-4 py-2 rounded-xl text-xs font-bold font-mono bg-slate-950 border border-slate-800 text-slate-300 hover:text-white">🏛️ Social Welfare & Health</button>
+      </div>
+
+      <!-- Schemes Grid Output -->
+      <div className="min-h-[400px]">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="explorer-schemes-grid">
+          <!-- Populated by 3,500+ Generator JS Engine -->
+        </div>
+      </div>
+
+      <!-- Pagination Controls Bar -->
+      <div class="mt-10 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+        <div className="text-slate-400">
+          Showing <span id="page-start-idx" className="text-white font-bold">1</span> - <span id="page-end-idx" className="text-white font-bold">9</span> of <span id="page-total-idx" className="text-[#FFB800] font-bold">3,500</span> Schemes
+        </div>
+
+        <div className="flex items-center gap-2" id="pagination-buttons">
+          <button onclick="changePage(-1)" id="prev-btn" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white disabled:opacity-40 cursor-pointer">← Previous</button>
+          <span className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-[#00E5CC] font-bold" id="current-page-num">Page 1</span>
+          <button onclick="changePage(1)" id="next-btn" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white cursor-pointer">Next →</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GEOLOCATION NEARBY AUTHORIZED GOVERNMENT BANKS FINDER DASHBOARD -->
+  <section id="bank-locator-section" class="py-12 relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-3xl bg-slate-900/90 border border-[#00E5CC]/40 p-6 sm:p-10 backdrop-blur-2xl shadow-2xl">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 border-b border-slate-800 pb-6">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-[#00E5CC]/20 text-[#00E5CC] border border-[#00E5CC]/40 text-xs font-mono font-bold">
+              GEOLOCATION BANK ROUTER
+            </span>
+            <span class="text-xs font-mono text-slate-400">DISTRICT SC/ST NODAL BANK BRANCHES</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black font-heading text-white mt-2">
+            Geolocation Authorized Bank & Loan Disbursal Finder
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Discover authorized Government Banks nearby offering higher loan sanction limits, lower interest rates, and priority subsidy processing for your matched scheme.
+          </p>
+        </div>
+
+        <div class="px-4 py-2 rounded-2xl bg-slate-950 border border-slate-800 text-right font-mono">
+          <div class="text-xs text-slate-400">Current District:</div>
+          <div id="bank-district-tag" class="text-lg font-black text-[#00E5CC]">Chennai, Tamil Nadu</div>
+        </div>
+      </div>
+
+      <!-- District Filter & Search Controls -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+        <div class="md:col-span-6">
+          <input 
+            type="text" 
+            id="bank-search-input"
+            oninput="renderBankCards()"
+            placeholder="🔍 Search bank name or branch area (e.g. 'State Bank of India', 'Canara', 'Main Branch', 'Anna Nagar')..." 
+            class="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 font-mono text-xs focus:outline-none focus:border-[#00E5CC]"
+          >
+        </div>
+        <div class="md:col-span-3">
+          <select id="bank-district-select" onchange="updateBankLocation(this.value)" class="w-full px-3 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-xs font-mono text-[#FFB800] font-bold outline-none">
+            <option value="Chennai, Tamil Nadu">📍 District: Chennai</option>
+            <option value="Coimbatore, Tamil Nadu">📍 District: Coimbatore</option>
+            <option value="Madurai, Tamil Nadu">📍 District: Madurai</option>
+            <option value="Bengaluru, Karnataka">📍 District: Bengaluru</option>
+            <option value="Mumbai, Maharashtra">📍 District: Mumbai</option>
+            <option value="Delhi NCR">📍 District: Delhi NCR</option>
+          </select>
+        </div>
+        <div class="md:col-span-3">
+          <select id="bank-scheme-select" onchange="renderBankCards()" class="w-full px-3 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-xs font-mono text-white outline-none">
+            <option value="ALL">All Scheme Allocations</option>
+            <option value="NSFDC">NSFDC Term Loans (6% Rate)</option>
+            <option value="PMEGP">PMEGP Margin Money (35% Grant)</option>
+            <option value="MUDRA">MUDRA Loans (Collateral-Free)</option>
+            <option value="STANDUP">Stand-Up India (Up to ₹1 Cr)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Bank Cards Grid -->
+      <div id="nearby-banks-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- JS Populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONALIZED BENEFICIARY DASHBOARD SECTION -->
+  <section id="dashboard-section" class="py-12 relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div id="beneficiary-dashboard-container">
+      <!-- Generated dynamically based on user profile -->
+    </div>
+  </section>
+
+  <!-- REVOLUTIONARY CAPABILITIES (FEATURES) -->
+  <section id="features" class="py-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="px-4 py-1.5 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-mono font-bold uppercase tracking-widest">
+          REVOLUTIONARY CAPABILITIES
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-black font-heading tracking-tight text-white mt-4">
+          Engineered for <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] to-[#00E5CC]">Maximum Impact</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div onclick="openProfileIntake()" class="tilt-card p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4 cursor-pointer hover:border-[#FFB800] transition-all hover:scale-[1.02]">
+          <div class="flex justify-between items-start">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FFB800] to-amber-200 p-0.5">
+              <div class="w-full h-full bg-[#0A0E1A] rounded-[14px] flex items-center justify-center text-[#FFB800] font-black text-xl">✨</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-[10px] font-mono font-bold">CLICK TO MATCH</span>
+          </div>
+          <span class="text-[10px] font-mono text-[#FFB800] uppercase tracking-wider block">CORE AI ENGINE</span>
+          <h3 class="text-xl font-bold font-heading text-white">Personalized Scheme Matching</h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">AI engine dynamically maps beneficiary demographics, trade category, geography, and income against 3,500+ central & state schemes.</p>
+          <div class="pt-2">
+            <button class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs shadow-md">Match My Schemes 🚀</button>
+          </div>
+        </div>
+
+        <div onclick="openSmartLoanModal()" class="tilt-card p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4 cursor-pointer hover:border-[#00E5CC] transition-all hover:scale-[1.02]">
+          <div class="flex justify-between items-start">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#00E5CC] to-teal-200 p-0.5">
+              <div class="w-full h-full bg-[#0A0E1A] rounded-[14px] flex items-center justify-center text-[#00E5CC] font-black text-xl">🧮</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-[#00E5CC]/10 border border-[#00E5CC]/30 text-[#00E5CC] text-[10px] font-mono font-bold">CLICK TO SIMULATE</span>
+          </div>
+          <span class="text-[10px] font-mono text-[#00E5CC] uppercase tracking-wider block">FINANCIAL SUITE</span>
+          <h3 class="text-xl font-bold font-heading text-white">Smart Loan & EMI Planning</h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">Integrated financial simulator calculates principal subsidies, interest concessions, EMI burden, and projected ROI for micro-loans.</p>
+          <div class="pt-2">
+            <button class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#00E5CC] to-teal-500 text-black font-extrabold text-xs shadow-md">Open Loan Simulator 🧮</button>
+          </div>
+        </div>
+
+        <div onclick="openEligibilityGuidanceModal()" class="tilt-card p-6 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4 cursor-pointer hover:border-[#FFB800] transition-all hover:scale-[1.02]">
+          <div class="flex justify-between items-start">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FFB800] to-amber-200 p-0.5">
+              <div class="w-full h-full bg-[#0A0E1A] rounded-[14px] flex items-center justify-center text-[#FFB800] font-black text-xl">🛡️</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-[10px] font-mono font-bold">CLICK TO EVALUATE</span>
+          </div>
+          <span class="text-[10px] font-mono text-[#FFB800] uppercase tracking-wider block">TRANSPARENCY</span>
+          <h3 class="text-xl font-bold font-heading text-white">Clear Eligibility Guidance</h3>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">Plain-language eligibility breakdown with pass/fail criteria indicators and real-time gap analysis for missing requirements.</p>
+          <div class="pt-2">
+            <button class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs shadow-md">Check Eligibility & Gaps 🛡️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS SECTION -->
+  <section id="how-it-works" class="py-20 relative z-10 bg-slate-950/60 border-y border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="px-4 py-1.5 rounded-full bg-[#00E5CC]/10 border border-[#00E5CC]/30 text-[#00E5CC] text-xs font-mono font-bold uppercase tracking-widest">
+          BENEFICIARY WORKFLOW
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-black font-heading tracking-tight text-white mt-4">
+          How <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00E5CC] via-white to-[#FFB800]">SCHEME SPEAR</span> Works
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-3">
+          <span class="text-xs font-mono font-bold text-[#FFB800]">STEP 01</span>
+          <h4 class="text-lg font-bold text-white font-heading">1. Tell Us Your Needs</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">Enter your trade details, state, social category, and loan requirement via voice or form.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-3">
+          <span class="text-xs font-mono font-bold text-[#00E5CC]">STEP 02</span>
+          <h4 class="text-lg font-bold text-white font-heading">2. Find the Right Scheme</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">Our RAG vector engine searches NSFDC schemes, Stand-Up India, Mudra, and state compendiums in sub-50ms.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-3">
+          <span class="text-xs font-mono font-bold text-[#FFB800]">STEP 03</span>
+          <h4 class="text-lg font-bold text-white font-heading">3. Check Eligibility</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">Automated rule evaluation scores age, income ceiling, project cost, and quota criteria with clear green/yellow badges.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT & FOOTER -->
+  <footer id="contact" class="relative z-10 pt-20 pb-12 bg-slate-950 border-t border-slate-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono">
+        <div>© 2026 SCORPIUS. SCHEME SPEAR AI Platform.</div>
+        <div class="flex gap-4"><a href="#hero" class="hover:text-[#FFB800]">Back to Top ↑</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PROFILE INTAKE MODAL -->
+  <div id="intake-modal" class="fixed inset-0 z-[95] hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-xl rounded-3xl bg-[#0F172A] border border-[#FFB800]/50 p-6 sm:p-8 shadow-2xl text-white my-8">
+      <button onclick="closeProfileIntake()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+      
+      <div class="text-center mb-6">
+        <span class="px-3 py-1 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-mono">
+          BENEFICIARY PROFILE INTAKE
+        </span>
+        <h3 class="text-2xl font-bold font-heading mt-2">Personalized AI Scheme Matcher</h3>
+        <p class="text-xs text-slate-400 mt-1">Provide your details to match official NSFDC, Stand-Up India & MUDRA schemes.</p>
+      </div>
+
+      <form onsubmit="saveProfileIntake(event)" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+            <input type="text" id="p-name" required value="Sriram Suresh" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number</label>
+            <input type="tel" id="p-phone" required value="8056992589" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Date of Birth (DOB)</label>
+            <input type="date" id="p-dob" required value="2000-05-15" onchange="handleDobChange(this.value)" class="w-full px-2 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-[#00E5CC] font-bold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Calculated Age</label>
+            <input type="number" id="p-age" readonly value="26" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-[#FFB800] font-bold outline-none cursor-not-allowed">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Gender</label>
+            <select id="p-gender" class="w-full px-2 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Transgender">Transgender</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Social / Caste Category</label>
+          <select id="p-caste" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-[#FFB800] font-bold outline-none">
+            <option value="SC">Scheduled Caste (SC) - NSFDC Priority</option>
+            <option value="ST">Scheduled Tribe (ST)</option>
+            <option value="OBC">Other Backward Class (OBC)</option>
+            <option value="EWS">Economically Weaker Section (EWS)</option>
+            <option value="Differently Abled">Differently Abled (PwD)</option>
+            <option value="General">General Category</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Entrepreneur Status</label>
+            <select id="p-status" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+              <option value="Aspiring / New Micro-Unit">Aspiring / New Micro-Unit</option>
+              <option value="Existing Micro-Entrepreneur">Existing Micro-Entrepreneur</option>
+              <option value="Self-Help Group (SHG)">Self-Help Group (SHG)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Average Income (LPA in ₹)</label>
+            <input type="number" id="p-income" step="0.5" value="2.5" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-[#00E5CC] font-bold outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">State</label>
+            <input type="text" id="p-state" value="Tamil Nadu" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">District</label>
+            <input type="text" id="p-district" value="Chennai" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#00E5CC] to-teal-500 text-black font-extrabold text-xs cursor-pointer shadow-lg hover:scale-[1.01] transition-transform">
+          Generate Matched Schemes Dashboard 🚀
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE SCHEME INSPECTION & ELIGIBILITY MODAL -->
+  <div id="scheme-detail-modal" class="fixed inset-0 z-[96] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div id="modal-detail-content" class="relative w-full max-w-3xl rounded-3xl bg-[#0F172A] border border-[#FFB800]/50 p-6 sm:p-8 shadow-2xl text-white my-8 max-h-[90vh] overflow-y-auto">
+      <!-- Modal Content Populated via JS -->
+    </div>
+  </div>
+
+  <!-- SMART LOAN & EMI RECOMMENDATION SUITE MODAL -->
+  <div id="smart-loan-modal" class="fixed inset-0 z-[97] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-4xl rounded-3xl bg-[#0F172A] border border-[#00E5CC]/50 p-6 sm:p-8 shadow-2xl text-white my-8 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeSmartLoanModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+      
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-[#00E5CC]/20 border border-[#00E5CC]/50 flex items-center justify-center text-[#00E5CC] text-xl font-black">🧮</div>
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-[#00E5CC]/10 border border-[#00E5CC]/30 text-[#00E5CC] text-[10px] font-mono font-bold">INTEGRATED FINANCIAL ENGINE</span>
+          <h3 class="text-2xl font-bold font-heading text-white">Smart Loan & EMI Recommendation Suite</h3>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Input & Simulator Controls -->
+        <div class="lg:col-span-5 space-y-4 bg-slate-950 p-5 rounded-2xl border border-slate-800">
+          <h4 class="text-xs font-mono font-bold text-[#00E5CC] uppercase">1. Loan Parameters & Profile</h4>
+          
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-300 font-semibold">Required Loan Amount</span>
+              <span id="loan-amt-val" class="font-mono text-[#00E5CC] font-bold">₹500,000</span>
+            </div>
+            <input type="range" id="loan-amount-slider" min="50000" max="5000000" step="25000" value="500000" oninput="calculateSmartLoan()" class="w-full accent-[#00E5CC]">
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-300 font-semibold">Repayment Tenure</span>
+              <span id="loan-tenure-val" class="font-mono text-[#FFB800] font-bold">5 Years (60 Mo)</span>
+            </div>
+            <input type="range" id="loan-tenure-slider" min="1" max="10" step="1" value="5" oninput="calculateSmartLoan()" class="w-full accent-[#FFB800]">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Project / Business Sector</label>
+            <select id="loan-sector-select" onchange="calculateSmartLoan()" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+              <option value="Micro-Manufacturing (Machinery/Textiles)">Micro-Manufacturing (Machinery/Textiles)</option>
+              <option value="Retail & Service Enterprise">Retail & Service Enterprise</option>
+              <option value="Agri-Processing & Dairy Farming">Agri-Processing & Dairy Farming</option>
+              <option value="Artisans, Handloom & Handicrafts">Artisans, Handloom & Handicrafts</option>
+            </select>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1 font-mono">
+            <div class="text-slate-400">Beneficiary Caste: <strong id="loan-caste-display" class="text-[#FFB800]">SC (NSFDC Priority)</strong></div>
+            <div class="text-slate-400">Entitled Subsidy: <strong id="loan-subsidy-pct-display" class="text-emerald-400">35% Capital Grant</strong></div>
+          </div>
+        </div>
+
+        <!-- Real-time Financial Breakdown & Output -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-[#00E5CC]/40 space-y-4">
+            <h4 class="text-xs font-mono font-bold text-[#FFB800] uppercase">2. Calculated Financial Assistance & EMI Burden</h4>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="text-[10px] font-mono text-slate-400 block">GOVT SUBSIDY (GRANT)</span>
+                <span id="loan-subsidy-display" class="text-lg font-black font-heading text-emerald-400">₹1,75,000</span>
+                <span class="text-[9px] text-slate-400 block">Non-refundable grant</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="text-[10px] font-mono text-slate-400 block">NET LOAN PRINCIPAL</span>
+                <span id="loan-net-principal-display" class="text-lg font-black font-heading text-[#00E5CC]">₹3,25,000</span>
+                <span class="text-[9px] text-slate-400 block">Post-subsidy balance</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="text-[10px] font-mono text-slate-400 block">MONTHLY EMI</span>
+                <span id="loan-emi-display" class="text-lg font-black font-heading text-[#FFB800]">₹6,283/mo</span>
+                <span class="text-[9px] text-slate-400 block">@ 6.0% Concessional Rate</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-teal-950/40 border border-teal-500/30 text-xs text-slate-300 leading-relaxed font-mono">
+              💡 <strong class="text-[#00E5CC]">Antigravity Smart Loan Analysis:</strong> By leveraging NSFDC / PMEGP concessional interest rates (6.0% p.a.), you save <strong id="loan-savings-display" class="text-emerald-400">₹42,500</strong> in total interest compared to commercial bank rates (12.5%).
+            </div>
+          </div>
+
+          <!-- Matched Smart Loan Products List -->
+          <div class="space-y-2">
+            <h4 class="text-xs font-mono font-bold text-white uppercase">3. Top Recommended Micro-Loan Schemes</h4>
+            <div id="smart-loan-matches-container" class="space-y-2 max-h-[200px] overflow-y-auto pr-1">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLEAR ELIGIBILITY GUIDANCE MODAL -->
+  <div id="eligibility-guidance-modal" class="fixed inset-0 z-[98] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-3xl rounded-3xl bg-[#0F172A] border border-[#FFB800]/50 p-6 sm:p-8 shadow-2xl text-white my-8 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeEligibilityGuidanceModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+      
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-[#FFB800]/20 border border-[#FFB800]/50 flex items-center justify-center text-[#FFB800] text-xl font-black">🛡️</div>
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-[10px] font-mono font-bold">TRANSPARENCY ENGINE</span>
+          <h3 class="text-2xl font-bold font-heading text-white">Clear Eligibility Guidance & Gap Analysis</h3>
+        </div>
+      </div>
+
+      <div id="eligibility-guidance-content" class="space-y-5">
+        <!-- JS Populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-WEBSITE DIRECT SCHEME APPLICATION & UPLOADABLE DOCUMENT LOCKER PORTAL MODAL -->
+  <div id="direct-apply-modal" class="fixed inset-0 z-[99] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-4xl rounded-3xl bg-[#0F172A] border border-[#FFB800]/60 p-6 sm:p-8 shadow-2xl text-white my-8 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeDirectApplyModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-[#FFB800]/20 border border-[#FFB800]/50 flex items-center justify-center text-[#FFB800] text-xl font-black">📄</div>
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-[10px] font-mono font-bold">DIRECT IN-WEBSITE APPLICATION PORTAL</span>
+          <h3 id="apply-modal-title" class="text-2xl font-bold font-heading text-white">Apply for Scheme Directly</h3>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Beneficiary & Bank Destination Card -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div>
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">1. Beneficiary Applicant Profile</span>
+            <div class="font-bold text-white text-sm mt-0.5" id="apply-user-name">Sriram Suresh</div>
+            <div class="text-slate-300 font-mono" id="apply-user-meta">Category: SC • Income: ₹2.5 LPA • Age: 26 Yrs</div>
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">2. Target Government Authorized Bank</span>
+            <div class="font-bold text-[#00E5CC] text-sm mt-0.5" id="apply-bank-name">State Bank of India (Main Nodal Branch)</div>
+            <div class="text-slate-300 font-mono" id="apply-bank-meta">Rate: 6.0% p.a. • Subsidy Approval: 99.2%</div>
+          </div>
+        </div>
+
+        <!-- SIMULATED ADDABLE / UPLOADABLE DOCUMENT LOCKER -->
+        <div class="p-5 rounded-2xl bg-slate-950 border border-amber-500/30 space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h4 class="text-xs font-mono font-bold text-[#FFB800] uppercase">3. Interactive Uploadable Documents Locker</h4>
+              <p class="text-[11px] text-slate-400">Attach or simulate uploading the required verification proof files for instant Nodal submission.</p>
+            </div>
+            <button onclick="triggerSimulatedFileUpload()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-[#00E5CC] border border-[#00E5CC]/40 text-xs font-bold font-mono cursor-pointer">
+              + Attach New Document 📎
+            </button>
+          </div>
+
+          <!-- Document Upload Cards Container -->
+          <div id="uploaded-docs-list" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Submission Status & Progress Indicator -->
+        <div id="apply-status-box" class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="font-mono text-slate-300">Application Digital Handshake:</span>
+            <span class="font-mono font-bold text-emerald-400">READY FOR SUBMISSION ✅</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+            <div id="upload-progress-bar" class="w-full h-full bg-gradient-to-r from-[#00E5CC] to-[#FFB800]"></div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-end gap-3 pt-2">
+          <button onclick="closeDirectApplyModal()" class="px-5 py-3 rounded-xl bg-slate-900 text-slate-300 text-xs font-bold border border-slate-800 hover:bg-slate-800">
+            Cancel
+          </button>
+          <button onclick="submitDirectSchemeApplication()" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs shadow-lg hover:scale-105 transition-transform cursor-pointer">
+            Submit Official Application Now 🚀
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATED DISTRICT NODAL OFFICER (SCA) VERIFICATION DASHBOARD MODAL -->
+  <div id="nodal-officer-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-3xl rounded-3xl bg-[#0F172A] border border-[#FFB800]/60 p-6 sm:p-8 shadow-2xl text-white my-8 max-h-[90vh] overflow-y-auto">
+      <button onclick="closeNodalOfficerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-[#FFB800]/20 border border-[#FFB800]/50 flex items-center justify-center text-[#FFB800] text-2xl font-black">👨‍💼</div>
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-[10px] font-mono font-bold">DISTRICT SC/ST CORPORATION (SCA) NODAL DESK</span>
+          <h3 id="nodal-modal-title" class="text-2xl font-bold font-heading text-white">District Nodal Officer Verification Desk</h3>
+        </div>
+      </div>
+
+      <div id="nodal-desk-content" class="space-y-6">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript 3,500+ Scheme Generator & Search Engine Logic -->
+  <script>
+    // User Profile State
+    let currentProfile = {
+      name: 'Sriram Suresh',
+      phone: '8056992589',
+      age: 26,
+      dob: '2000-05-15',
+      caste: 'SC',
+      entrepreneurStatus: 'Aspiring / New Micro-Unit',
+      gender: 'Male',
+      lpaIncome: 2.5,
+      state: 'Tamil Nadu',
+      district: 'Chennai'
+    };
+
+    const savedP = localStorage.getItem('scorpius_profile');
+    if (savedP) {
+      try { currentProfile = JSON.parse(savedP); } catch(e){}
+    }
+
+    // SVG Avatar Generator
+    function generateSvgAvatar(name, size = 36) {
+      const initials = name ? name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() : 'SC';
+      return `
+        <div class="relative inline-flex items-center justify-center rounded-full bg-gradient-to-tr from-[#FFB800] via-amber-300 to-[#00E5CC] p-0.5 shadow-md" style="width:${size}px; height:${size}px;">
+          <div class="w-full h-full bg-[#0A0E1A] rounded-full flex items-center justify-center font-black font-heading text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] to-[#00E5CC] text-xs">
+            ${initials}
+          </div>
+        </div>
+      `;
+    }
+
+    // DUAL THEME ENGINE (Day: White & Orange | Night: Black & Professional Green)
+    let currentTheme = localStorage.getItem('scorpius_app_theme') || 'day';
+
+    function applyTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('scorpius_app_theme', theme);
+      const body = document.body;
+      const btn = document.getElementById('theme-toggle-btn');
+
+      if (theme === 'day') {
+        body.classList.remove('night-mode');
+        body.classList.add('day-mode');
+        if (btn) {
+          btn.innerHTML = `☀️ <span class="hidden sm:inline font-bold">Day Mode (White & Orange)</span>`;
+          btn.className = "px-3 py-1.5 rounded-2xl bg-orange-100 text-[#EA580C] border border-orange-300 font-bold font-mono text-xs flex items-center gap-1.5 shadow-sm hover:scale-105 transition-transform cursor-pointer";
+        }
+        if (window.coinMat) window.coinMat.color.setHex(0xEA580C);
+        if (window.light1) window.light1.color.setHex(0xF97316);
+      } else {
+        body.classList.remove('day-mode');
+        body.classList.add('night-mode');
+        if (btn) {
+          btn.innerHTML = `🌙 <span class="hidden sm:inline font-bold">Night Mode (Black & Green)</span>`;
+          btn.className = "px-3 py-1.5 rounded-2xl bg-emerald-950/80 text-emerald-400 border border-emerald-500/40 font-bold font-mono text-xs flex items-center gap-1.5 shadow-sm hover:scale-105 transition-transform cursor-pointer";
+        }
+        if (window.coinMat) window.coinMat.color.setHex(0x059669);
+        if (window.light1) window.light1.color.setHex(0x10B981);
+      }
+    }
+
+    function toggleTheme() {
+      applyTheme(currentTheme === 'day' ? 'night' : 'day');
+    }
+
+    function renderUserNav() {
+      const uNav = document.getElementById('user-nav-area');
+      uNav.innerHTML = `
+        <div class="flex items-center gap-2.5">
+          <button id="theme-toggle-btn" onclick="toggleTheme()" class="px-3 py-1.5 rounded-2xl font-bold font-mono text-xs flex items-center gap-1.5 shadow-sm hover:scale-105 transition-transform cursor-pointer">
+            ${currentTheme === 'day' ? '☀️ Day Mode' : '🌙 Night Mode'}
+          </button>
+          <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-2xl text-xs font-semibold shadow-md">
+            ${generateSvgAvatar(currentProfile.name, 28)}
+            <span class="max-w-[110px] truncate text-white">${currentProfile.name}</span>
+            <button onclick="openProfileIntake()" title="Edit Intake Profile" class="text-[#00E5CC] hover:underline font-mono">⚙️ Profile (${currentProfile.age}y)</button>
+          </div>
+        </div>
+      `;
+      applyTheme(currentTheme);
+    }
+    renderUserNav();
+
+    // 3,500+ Master Database Generator Logic
+    const sectors = ['Education & Scholarships', 'Business & Entrepreneurship', 'Agriculture & Farming', 'Social Welfare & Health'];
+    const states = ['Tamil Nadu', 'Maharashtra', 'Karnataka', 'Uttar Pradesh', 'Gujarat', 'Delhi', 'West Bengal', 'Kerala', 'Punjab', 'Rajasthan'];
+    const castes = ['SC', 'ST', 'OBC', 'EWS', 'General'];
+
+    const masterSchemes3500 = [];
+
+    const baseSeeds = [
+      { title: 'Post-Matric Scholarship for SC/ST Students', code: 'NSP-POST-MATRIC', cat: 'Education & Scholarships', benefits: '100% course fee reimbursement + monthly allowance up to ₹1,200/mo.', docs: ['Aadhaar Card', 'Caste Certificate (SC/ST)', 'Income Proof', 'Marksheet'] },
+      { title: 'PM YASASVI Central Top Class Education Scholarship', code: 'PM-YASASVI', cat: 'Education & Scholarships', benefits: 'Full tuition fee reimbursement + annual stationary allowance of ₹45,000.', docs: ['Aadhaar Card', 'OBC / EWS Certificate', 'Income Certificate', 'Admission Receipt'] },
+      { title: 'National Means-cum-Merit Scholarship (NMMS)', code: 'NMMSS-2026', cat: 'Education & Scholarships', benefits: 'Scholarship of ₹12,000 per annum for Class 9 to Class 12 students.', docs: ['Aadhaar Card', 'Class 8 Marksheet', 'Income Proof'] },
+      { title: 'AICTE Pragati Scholarship for Girl Students', code: 'AICTE-PRAGATI', cat: 'Education & Scholarships', benefits: '₹50,000 per annum for duration of Technical Degree/Diploma course.', docs: ['Aadhaar Card', 'AICTE Admission Receipt', 'Income Proof'] },
+      { title: 'NSFDC Concessional Term Loan for SC Micro-Units', code: 'NSFDC-TL', cat: 'Business & Entrepreneurship', benefits: 'Term Loan up to ₹15 Lakhs at 6% interest rate with 35% capital subsidy.', docs: ['Aadhaar Card', 'Caste Certificate', 'Income Proof', 'Business DPR'] },
+      { title: 'Stand-Up India Micro-Enterprise Bank Loan', code: 'STANDUP-INDIA', cat: 'Business & Entrepreneurship', benefits: 'Bank loan from ₹10 Lakhs to ₹1 Crore for greenfield micro-enterprises.', docs: ['Aadhaar Card', 'PAN Card', 'Bankable Business DPR'] },
+      { title: 'Prime Minister Employment Generation Programme (PMEGP)', code: 'PMEGP-KVIC', cat: 'Business & Entrepreneurship', benefits: 'Margin money subsidy up to 35% for project cost up to ₹50 Lakhs.', docs: ['Aadhaar Card', 'Class 8/10 Pass Certificate', 'Project DPR'] },
+      { title: 'Pradhan Mantri MUDRA Yojana (Tarun Loan)', code: 'MUDRA-TARUN', cat: 'Business & Entrepreneurship', benefits: 'Collateral-free business loan up to ₹10 Lakhs for enterprise expansion.', docs: ['Aadhaar Card', 'PAN Card', 'Bank Account Passbook'] },
+      { title: 'Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)', code: 'PM-KISAN', cat: 'Agriculture & Farming', benefits: 'Direct financial benefit of ₹6,000 per year paid in 3 equal installments.', docs: ['Aadhaar Card', 'Land Patta / Chitta', 'Bank Account Passbook'] },
+      { title: 'Kisan Credit Card (KCC) Crop Loan Scheme', code: 'KCC-CROP-LOAN', cat: 'Agriculture & Farming', benefits: 'Revolving crop credit up to ₹3 Lakhs at concessional 4% interest rate.', docs: ['Aadhaar Card', 'Land Ownership Proof', 'Crop Cultivation Proof'] },
+      { title: 'Mahila Samriddhi Yojana for Women Micro-Vendors', code: 'MAHILA-SAMRIDDHI', cat: 'Social Welfare & Health', benefits: 'Micro-credit assistance up to ₹1.4 Lakhs at ultra-low 4% interest rate.', docs: ['Aadhaar Card', 'Caste Certificate', 'Income Certificate'] },
+      { title: 'Ayushman Bharat Pradhan Mantri Jan Arogya Yojana', code: 'PM-JAY-HEALTH', cat: 'Social Welfare & Health', benefits: 'Free cashless health cover up to ₹5 Lakhs per family per year.', docs: ['Aadhaar Card', 'BPL Ration Card'] }
+    ];
+
+    for (let i = 1; i <= 3500; i++) {
+      const seed = baseSeeds[(i - 1) % baseSeeds.length];
+      const level = i % 2 === 0 ? 'Central' : 'State';
+      const stateName = states[i % states.length];
+      
+      masterSchemes3500.push({
+        id: `scheme-${i}`,
+        index: i,
+        code: `${seed.code}-${i}`,
+        title: i <= baseSeeds.length ? seed.title : `${stateName} ${seed.title} (Phase ${Math.floor(i/12) + 1})`,
+        level: level,
+        stateName: level === 'State' ? stateName : 'All India',
+        category: seed.cat,
+        benefits: seed.benefits,
+        details: `Official Scheme Index #${i}: Comprehensive government assistance program provided under ${level} Government guidelines for eligible beneficiaries in ${stateName}.`,
+        minAge: 15 + (i % 5),
+        maxAge: 50 + (i % 20),
+        incomeCeiling: (2.5 + (i % 6) * 1.5).toFixed(1),
+        targetCastes: [castes[i % castes.length], 'SC'],
+        docs: seed.docs
+      });
+    }
+
+    let currentSearchQuery = '';
+    let currentLevelFilter = 'ALL';
+    let currentCategoryFilter = 'ALL';
+    let currentPage = 1;
+    const pageSize = 9;
+
+    function handleSearchInput(val) {
+      currentSearchQuery = val.toLowerCase();
+      currentPage = 1;
+      renderExplorerGrid();
+    }
+
+    function handleLevelFilter(val) {
+      currentLevelFilter = val;
+      currentPage = 1;
+      renderExplorerGrid();
+    }
+
+    function handleCategoryFilter(cat, btnEl) {
+      currentCategoryFilter = cat;
+      currentPage = 1;
+      document.querySelectorAll('.cat-pill').forEach(b => {
+        b.classList.remove('bg-[#FFB800]', 'text-black');
+        b.classList.add('bg-slate-950', 'text-slate-300');
+      });
+      btnEl.classList.remove('bg-slate-950', 'text-slate-300');
+      btnEl.classList.add('bg-[#FFB800]', 'text-black');
+      renderExplorerGrid();
+    }
+
+    function changePage(dir) {
+      currentPage += dir;
+      renderExplorerGrid();
+      document.getElementById('scheme-master-explorer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderExplorerGrid() {
+      const grid = document.getElementById('explorer-schemes-grid');
+      grid.innerHTML = '';
+
+      const filtered = masterSchemes3500.filter(s => {
+        const matchesLevel = currentLevelFilter === 'ALL' || s.level === currentLevelFilter;
+        const matchesCat = currentCategoryFilter === 'ALL' || s.category.includes(currentCategoryFilter) || s.category === currentCategoryFilter;
+        const matchesQ = !currentSearchQuery || 
+          s.title.toLowerCase().includes(currentSearchQuery) || 
+          s.code.toLowerCase().includes(currentSearchQuery) ||
+          s.category.toLowerCase().includes(currentSearchQuery) ||
+          s.stateName.toLowerCase().includes(currentSearchQuery);
+
+        return matchesLevel && matchesCat && matchesQ;
+      });
+
+      document.getElementById('total-results-count').innerText = filtered.length.toLocaleString();
+      document.getElementById('page-total-idx').innerText = filtered.length.toLocaleString();
+
+      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      document.getElementById('current-page-num').innerText = `Page ${currentPage} of ${totalPages}`;
+      document.getElementById('prev-btn').disabled = currentPage === 1;
+      document.getElementById('next-btn').disabled = currentPage === totalPages;
+
+      const startIdx = (currentPage - 1) * pageSize;
+      const endIdx = Math.min(startIdx + pageSize, filtered.length);
+
+      document.getElementById('page-start-idx').innerText = filtered.length > 0 ? startIdx + 1 : 0;
+      document.getElementById('page-end-idx').innerText = endIdx;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-3 text-center py-12 text-slate-400 font-mono">No schemes match "${currentSearchQuery}". Try clearing your filters or selecting ALL SECTORS.</div>`;
+        return;
+      }
+
+      const pageSlice = filtered.slice(startIdx, endIdx);
+
+      pageSlice.forEach(s => {
+        const isEligible = s.targetCastes.includes(currentProfile.caste);
+        const matchPct = isEligible ? (currentProfile.lpaIncome <= s.incomeCeiling ? 98 : 84) : 68;
+
+        grid.innerHTML += `
+          <div onclick="inspectScheme3500('${s.id}')" class="tilt-card p-6 rounded-3xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-4 cursor-pointer hover:border-[#FFB800]">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded ${s.level==='Central'?'bg-amber-500/20 text-[#FFB800]':'bg-teal-500/20 text-[#00E5CC]'}">${s.level.toUpperCase()} • ${s.stateName}</span>
+                <span class="text-lg font-black font-heading text-[#FFB800]">${matchPct}% Match</span>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">${s.category}</span>
+              <h3 class="text-base font-bold font-heading text-white mb-2 leading-tight">${s.title}</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">${s.benefits}</p>
+            </div>
+
+            <div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
+              <span class="font-mono text-slate-400 text-[11px]">📄 ${s.docs.length} Docs Required</span>
+              <button onclick="event.stopPropagation(); inspectScheme3500('${s.id}')" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-bold text-xs">Inspect & Match →</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+    renderExplorerGrid();
+
+    function inspectScheme3500(schemeId) {
+      const scheme = masterSchemes3500.find(s => s.id === schemeId);
+      if (!scheme) return;
+
+      const isCasteMatch = scheme.targetCastes.includes(currentProfile.caste);
+      const isIncomeMatch = currentProfile.lpaIncome <= Number(scheme.incomeCeiling);
+      const isAgeMatch = currentProfile.age >= scheme.minAge && currentProfile.age <= scheme.maxAge;
+      const isStateMatch = scheme.level === 'Central' || scheme.stateName === currentProfile.state || scheme.stateName === 'All India';
+
+      const matchScore = isCasteMatch ? (isIncomeMatch ? 98 : 85) : 68;
+
+      const modalContent = document.getElementById('modal-detail-content');
+      modalContent.innerHTML = `
+        <div class="relative space-y-6">
+          <button onclick="closeSchemeDetail()" class="absolute -top-2 -right-2 text-slate-400 hover:text-white text-xl font-bold bg-slate-900 px-3 py-1 rounded-xl border border-slate-800">✕</button>
+          
+          <!-- 1. Header Banner & Category Tags -->
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="px-3 py-1 rounded-full text-xs font-mono font-bold ${scheme.level==='Central'?'bg-amber-500/20 text-[#FFB800] border border-[#FFB800]/40':'bg-teal-500/20 text-[#00E5CC] border border-teal-500/40'}">${scheme.level.toUpperCase()} SCHEME • ${scheme.stateName}</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-900 text-slate-300 border border-slate-700">${scheme.code}</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">${matchScore}% MATCH FOR YOU</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black font-heading text-white leading-tight">${scheme.title}</h2>
+            <p class="text-xs font-mono text-slate-400 mt-1">Sector Domain: <span class="text-[#FFB800] font-bold">${scheme.category}</span></p>
+          </div>
+
+          <!-- 2. Detailed Background & Objective -->
+          <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+            <h4 class="text-xs font-mono font-bold text-[#FFB800] uppercase tracking-wider">📖 COMPREHENSIVE SCHEME DETAIL VIEW & OBJECTIVES</h4>
+            <p class="text-xs text-slate-200 leading-relaxed font-sans">${scheme.details}</p>
+            <p class="text-xs text-slate-300 leading-relaxed">This program is executed under standard ${scheme.level} Government guidelines to provide financial grants, interest concessions, micro-enterprise support, and social safety nets for eligible beneficiaries in ${scheme.stateName}.</p>
+          </div>
+
+          <!-- 3. Financial Assistance & Subsidy Structure -->
+          <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-950 to-slate-900 border border-[#00E5CC]/40 space-y-3">
+            <h4 class="text-xs font-mono font-bold text-[#00E5CC] uppercase tracking-wider">💰 FINANCIAL ASSISTANCE & SUBSIDY STRUCTURE</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <span class="text-[10px] font-mono text-slate-400 block">CAPITAL SUBSIDY / GRANT</span>
+                <span class="text-base font-black font-heading text-emerald-400">${isCasteMatch ? '35% Non-refundable' : '15-25% Standard'}</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <span class="text-[10px] font-mono text-slate-400 block">INTEREST RATE CONCESSION</span>
+                <span class="text-base font-black font-heading text-[#FFB800]">${isCasteMatch ? '6.0% p.a. Concessional' : '8.5% p.a. Standard'}</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <span class="text-[10px] font-mono text-slate-400 block">DISBURSAL MODE</span>
+                <span class="text-base font-black font-heading text-white">Direct Benefit Transfer (DBT)</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-300 font-mono pt-1">Key Financial Benefits: <strong class="text-white">${scheme.benefits}</strong></p>
+          </div>
+
+          <!-- 4. Eligibility Matrix Evaluation -->
+          <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+            <h4 class="text-xs font-mono font-bold text-white uppercase tracking-wider">🛡️ BENEFICIARY ELIGIBILITY MATRIX (${currentProfile.name})</h4>
+            <div class="space-y-2 text-xs">
+              <div class="p-3 rounded-xl bg-slate-900 border ${isCasteMatch ? 'border-emerald-500/30' : 'border-amber-500/30'} flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span>${isCasteMatch ? '✅' : '⚠️'}</span>
+                  <span>Social Category Quota (Your Caste: <strong>${currentProfile.caste}</strong>)</span>
+                </div>
+                <span class="font-mono font-bold ${isCasteMatch ? 'text-emerald-400' : 'text-amber-400'}">${isCasteMatch ? 'ELIGIBLE (Priority)' : 'General Eligibility'}</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900 border ${isIncomeMatch ? 'border-emerald-500/30' : 'border-amber-500/30'} flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span>${isIncomeMatch ? '✅' : '⚠️'}</span>
+                  <span>Annual Income Ceiling (Your Income: <strong>₹${currentProfile.lpaIncome} LPA</strong> vs Max: <strong>₹${scheme.incomeCeiling} LPA</strong>)</span>
+                </div>
+                <span class="font-mono font-bold ${isIncomeMatch ? 'text-emerald-400' : 'text-amber-400'}">${isIncomeMatch ? 'PASSED' : 'EXCEEDS CEILING'}</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900 border ${isAgeMatch ? 'border-emerald-500/30' : 'border-amber-500/30'} flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span>${isAgeMatch ? '✅' : '⚠️'}</span>
+                  <span>Calculated Age Criteria (Your Age: <strong>${currentProfile.age} yrs</strong> vs Range: <strong>${scheme.minAge}-${scheme.maxAge} yrs</strong>)</span>
+                </div>
+                <span class="font-mono font-bold ${isAgeMatch ? 'text-emerald-400' : 'text-amber-400'}">${isAgeMatch ? 'PASSED' : 'OUTSIDE BRACKET'}</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-900 border ${isStateMatch ? 'border-emerald-500/30' : 'border-amber-500/30'} flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span>${isStateMatch ? '✅' : 'ℹ️'}</span>
+                  <span>Jurisdiction Alignment (${scheme.stateName})</span>
+                </div>
+                <span class="font-mono font-bold ${isStateMatch ? 'text-emerald-400' : 'text-amber-400'}">${isStateMatch ? 'MATCHED' : 'State Specific'}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Visual Roadmap Timeline Workflow -->
+          <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-900 pb-3">
+              <h4 class="text-xs font-mono font-bold text-[#FFB800] uppercase tracking-wider">🗺️ VISUAL APPLICATION ROADMAP & MILESTONES</h4>
+              <span class="text-[10px] font-mono text-[#00E5CC] bg-[#00E5CC]/10 px-2.5 py-0.5 rounded-full border border-[#00E5CC]/30 font-bold">FAST-TRACK 7-DAY DISPENSATION</span>
+            </div>
+
+            <div class="relative pt-2 pb-2">
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 relative z-10">
+                <!-- Milestone 1 -->
+                <div class="p-4 rounded-2xl bg-slate-900 border border-[#FFB800]/40 space-y-2 text-center shadow-lg relative">
+                  <div class="w-9 h-9 mx-auto rounded-full bg-[#FFB800] text-black font-black flex items-center justify-center text-xs shadow-[0_0_15px_rgba(255,184,0,0.5)]">01</div>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-[#FFB800]/20 text-[#FFB800]">INSTANT (0 MIN)</span>
+                  <h5 class="font-bold text-white text-xs">Profile & AI Match</h5>
+                  <p class="text-[11px] text-slate-300 leading-snug">AI maps DOB (${currentProfile.age}y), caste (${currentProfile.caste}), and income.</p>
+                </div>
+
+                <!-- Milestone 2 -->
+                <div class="p-4 rounded-2xl bg-slate-900 border border-[#00E5CC]/40 space-y-2 text-center shadow-lg relative">
+                  <div class="w-9 h-9 mx-auto rounded-full bg-[#00E5CC] text-black font-black flex items-center justify-center text-xs shadow-[0_0_15px_rgba(0,229,204,0.5)]">02</div>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-[#00E5CC]/20 text-[#00E5CC]">DAY 1 - LOCKER</span>
+                  <h5 class="font-bold text-white text-xs">Docs Locker Attach</h5>
+                  <p class="text-[11px] text-slate-300 leading-snug">Attach Aadhaar, Caste & Income certificates online.</p>
+                </div>
+
+                <!-- Milestone 3 -->
+                <div class="p-4 rounded-2xl bg-slate-900 border border-amber-500/40 space-y-2 text-center shadow-lg relative">
+                  <div class="w-9 h-9 mx-auto rounded-full bg-amber-400 text-black font-black flex items-center justify-center text-xs shadow-[0_0_15px_rgba(251,191,36,0.5)]">03</div>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/20 text-amber-300">DAY 2 - NODAL</span>
+                  <h5 class="font-bold text-white text-xs">SCA Nodal Scrutiny</h5>
+                  <p class="text-[11px] text-slate-300 leading-snug">District Nodal Officer approves 35% capital grant.</p>
+                </div>
+
+                <!-- Milestone 4 -->
+                <div class="p-4 rounded-2xl bg-slate-900 border border-emerald-500/40 space-y-2 text-center shadow-lg relative">
+                  <div class="w-9 h-9 mx-auto rounded-full bg-emerald-400 text-black font-black flex items-center justify-center text-xs shadow-[0_0_15px_rgba(52,211,153,0.5)]">04</div>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-400">DAY 5 - DISBURSAL</span>
+                  <h5 class="font-bold text-white text-xs">Bank DBT Disbursal</h5>
+                  <p class="text-[11px] text-slate-300 leading-snug">Nodal Bank disburses loan & subsidy to bank account.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Mandatory Documents Checklist -->
+          <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+            <h4 class="text-xs font-mono font-bold text-white uppercase tracking-wider">📄 MANDATORY VERIFICATION DOCUMENTS</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${scheme.docs.map(doc => `
+                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs text-slate-200">
+                  <div class="flex items-center gap-2">
+                    <span class="text-emerald-400 font-bold">✓</span>
+                    <span>${doc}</span>
+                  </div>
+                  <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">READY</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Footer Action Buttons -->
+          <div class="pt-2 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <button onclick="closeSchemeDetail(); openNodalOfficerModal('${scheme.id}');" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-800 text-[#FFB800] font-bold text-xs border border-[#FFB800]/40 hover:bg-slate-700 flex items-center justify-center gap-2 cursor-pointer">
+              👨‍💼 Nodal Officer Desk & Scrutiny
+            </button>
+            <button onclick="closeSchemeDetail(); openDirectApplyModal('${scheme.id}');" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs shadow-lg hover:scale-105 transition-transform cursor-pointer flex items-center justify-center gap-2">
+              Apply via Nodal Officer & Bank 🚀
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('scheme-detail-modal').style.display = 'flex';
+    }
+
+    function closeSchemeDetail() {
+      document.getElementById('scheme-detail-modal').style.display = 'none';
+    }
+
+    // Age Auto-Calculator
+    function handleDobChange(dobString) {
+      if (!dobString) return;
+      const dobDate = new Date(dobString);
+      const diffMs = Date.now() - dobDate.getTime();
+      const ageDate = new Date(diffMs);
+      const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+      document.getElementById('p-age').value = calculatedAge;
+      currentProfile.age = calculatedAge;
+      currentProfile.dob = dobString;
+    }
+
+    // Smart Loan & EMI Recommendation Suite Engine
+    function openSmartLoanModal() {
+      document.getElementById('smart-loan-modal').style.display = 'flex';
+      const casteLabel = document.getElementById('loan-caste-display');
+      if (casteLabel) {
+        casteLabel.innerText = `${currentProfile.caste} Category (${currentProfile.caste === 'SC' || currentProfile.caste === 'ST' ? 'NSFDC Priority' : 'General Eligibility'})`;
+      }
+      calculateSmartLoan();
+    }
+
+    function closeSmartLoanModal() {
+      document.getElementById('smart-loan-modal').style.display = 'none';
+    }
+
+    function calculateSmartLoan() {
+      const amountSlider = document.getElementById('loan-amount-slider');
+      const tenureSlider = document.getElementById('loan-tenure-slider');
+      if (!amountSlider || !tenureSlider) return;
+
+      const amount = Number(amountSlider.value);
+      const tenureYears = Number(tenureSlider.value);
+      
+      document.getElementById('loan-amt-val').innerText = `₹${amount.toLocaleString('en-IN')}`;
+      document.getElementById('loan-tenure-val').innerText = `${tenureYears} Years (${tenureYears * 12} Mo)`;
+
+      // Subsidy percentage calculation based on Caste & Location
+      let subsidyPct = 0.15;
+      if (currentProfile.caste === 'SC' || currentProfile.caste === 'ST') {
+        subsidyPct = 0.35; // 35% Capital Grant for SC/ST
+      } else if (currentProfile.caste === 'OBC' || currentProfile.caste === 'EWS') {
+        subsidyPct = 0.25;
+      }
+      
+      document.getElementById('loan-subsidy-pct-display').innerText = `${Math.round(subsidyPct * 100)}% Capital Grant`;
+
+      const subsidyAmt = amount * subsidyPct;
+      const netPrincipal = amount - subsidyAmt;
+      
+      // Interest rate: 6.0% p.a. for SC/ST concessional, 8.5% p.a. for standard
+      const annualInterestRate = (currentProfile.caste === 'SC' || currentProfile.caste === 'ST') ? 6.0 : 8.5;
+      const monthlyRate = annualInterestRate / (12 * 100);
+      const totalMonths = tenureYears * 12;
+
+      // EMI Formula: [P x R x (1+R)^N]/[(1+R)^N-1]
+      const emi = (netPrincipal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+      
+      // Commercial Interest (12.5% p.a.) comparison
+      const commRate = 0.125 / 12;
+      const commEmi = (amount * commRate * Math.pow(1 + commRate, totalMonths)) / (Math.pow(1 + commRate, totalMonths) - 1);
+      const totalGovtCost = (emi * totalMonths);
+      const totalCommCost = (commEmi * totalMonths);
+      const interestSavings = Math.max(0, Math.round(totalCommCost - totalGovtCost));
+
+      document.getElementById('loan-subsidy-display').innerText = `₹${Math.round(subsidyAmt).toLocaleString('en-IN')}`;
+      document.getElementById('loan-net-principal-display').innerText = `₹${Math.round(netPrincipal).toLocaleString('en-IN')}`;
+      document.getElementById('loan-emi-display').innerText = `₹${Math.round(emi).toLocaleString('en-IN')}/mo`;
+      document.getElementById('loan-savings-display').innerText = `₹${interestSavings.toLocaleString('en-IN')}`;
+
+      // Generate top loan products matched for current user
+      const matchesContainer = document.getElementById('smart-loan-matches-container');
+      if (matchesContainer) {
+        matchesContainer.innerHTML = `
+          <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/40 flex justify-between items-center text-xs">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-[#FFB800] text-[10px] font-mono font-bold">NSFDC CONCESSIONAL LOAN</span>
+              <h5 class="font-bold text-white mt-1">National Scheduled Castes Finance Term Loan</h5>
+              <p class="text-[11px] text-slate-300">Concessional 6% interest rate with ${Math.round(subsidyPct*100)}% capital subsidy for SC entrepreneurs.</p>
+            </div>
+            <button onclick="alert('Proceeding with NSFDC Term Loan Application for ₹${amount.toLocaleString('en-IN')}'); closeSmartLoanModal();" class="px-3 py-1.5 rounded-lg bg-[#FFB800] text-black font-extrabold text-[11px] whitespace-nowrap">Select Loan</button>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex justify-between items-center text-xs">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-teal-500/20 text-[#00E5CC] text-[10px] font-mono font-bold">PMEGP MARGIN MONEY SCHEME</span>
+              <h5 class="font-bold text-white mt-1">Prime Minister Employment Generation Programme</h5>
+              <p class="text-[11px] text-slate-300">Up to ₹50 Lakhs project cost with 35% margin money subsidy in rural/urban areas.</p>
+            </div>
+            <button onclick="alert('Proceeding with PMEGP Application'); closeSmartLoanModal();" class="px-3 py-1.5 rounded-lg bg-[#00E5CC] text-black font-extrabold text-[11px] whitespace-nowrap">Select Loan</button>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex justify-between items-center text-xs">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-mono font-bold">MUDRA TARUN LOAN</span>
+              <h5 class="font-bold text-white mt-1">Pradhan Mantri MUDRA Yojana</h5>
+              <p class="text-[11px] text-slate-300">Collateral-free micro-credit up to ₹10 Lakhs for enterprise expansion.</p>
+            </div>
+            <button onclick="alert('Proceeding with MUDRA Loan Application'); closeSmartLoanModal();" class="px-3 py-1.5 rounded-lg bg-slate-700 text-white font-bold text-[11px] whitespace-nowrap">Select Loan</button>
+          </div>
+        `;
+      }
+    }
+
+    // Clear Eligibility Guidance Engine
+    function openEligibilityGuidanceModal() {
+      document.getElementById('eligibility-guidance-modal').style.display = 'flex';
+      renderEligibilityGuidance();
+    }
+
+    function closeEligibilityGuidanceModal() {
+      document.getElementById('eligibility-guidance-modal').style.display = 'none';
+    }
+
+    function renderEligibilityGuidance() {
+      const container = document.getElementById('eligibility-guidance-content');
+      if (!container) return;
+
+      const age = currentProfile.age;
+      const caste = currentProfile.caste;
+      const income = currentProfile.lpaIncome;
+      const isSCST = caste === 'SC' || caste === 'ST';
+      const isIncomeEligible = income <= 3.0;
+      const isAgeEligible = age >= 18 && age <= 50;
+
+      container.innerHTML = `
+        <div class="p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-950 border border-[#FFB800]/40 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-black font-heading text-white">${currentProfile.name}</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-mono font-bold">ELIGIBILITY SCORE: 98%</span>
+            </div>
+            <p class="text-xs text-slate-300 font-mono mt-1">Beneficiary Demographics: ${age} Years Old (DOB: ${currentProfile.dob}), Category: ${caste}, Income: ₹${income} LPA, ${currentProfile.district}, ${currentProfile.state}</p>
+          </div>
+          <button onclick="closeEligibilityGuidanceModal(); openProfileIntake();" class="px-4 py-2 rounded-xl bg-slate-800 text-[#FFB800] border border-[#FFB800]/40 text-xs font-bold whitespace-nowrap hover:bg-slate-700">
+            Update Profile & DOB ⚙️
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">Automated Eligibility Criteria Pass/Fail Verification</h4>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border ${isAgeEligible ? 'border-emerald-500/30' : 'border-amber-500/30'} flex items-start gap-3">
+            <div class="text-xl">${isAgeEligible ? '✅' : '⚠️'}</div>
+            <div class="flex-1 text-xs">
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold text-white text-sm">Age Requirement Evaluation</h5>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isAgeEligible ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${isAgeEligible ? 'CRITERIA PASSED' : 'OUTSIDE RANGE'}</span>
+              </div>
+              <p class="text-slate-300 mt-1">Calculated Age from DOB (${currentProfile.dob}): <strong class="text-white">${age} Years Old</strong>. Government micro-loan schemes require age between 18 and 50 years.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border ${isSCST ? 'border-emerald-500/30' : 'border-slate-800'} flex items-start gap-3">
+            <div class="text-xl">${isSCST ? '✅' : 'ℹ️'}</div>
+            <div class="flex-1 text-xs">
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold text-white text-sm">Social Reservation Quota & Concessions</h5>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isSCST ? 'bg-emerald-500/20 text-emerald-400' : 'bg-blue-500/20 text-blue-400'}">${isSCST ? 'PRIORITY QUOTA PASSED' : 'GENERAL QUOTA'}</span>
+              </div>
+              <p class="text-slate-300 mt-1">Social Category: <strong class="text-[#FFB800]">${caste}</strong>. ${isSCST ? 'You are entitled to top-tier NSFDC priority allocation, 35% capital subsidy, and 6.0% interest rate concessions.' : 'Eligible under General / OBC micro-enterprise schemes such as MUDRA & PMEGP.'}</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border ${isIncomeEligible ? 'border-emerald-500/30' : 'border-amber-500/30'} flex items-start gap-3">
+            <div class="text-xl">${isIncomeEligible ? '✅' : '⚠️'}</div>
+            <div class="flex-1 text-xs">
+              <div class="flex justify-between items-center">
+                <h5 class="font-bold text-white text-sm">Annual Income Ceiling Evaluation</h5>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isIncomeEligible ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${isIncomeEligible ? 'INCOME CAP PASSED' : 'HIGH INCOME'}</span>
+              </div>
+              <p class="text-slate-300 mt-1">Declared Annual Income: <strong class="text-[#00E5CC]">₹${income} LPA</strong>. ${isIncomeEligible ? 'Within the ₹3.0 LPA ceiling for maximum government grant subsidies and BPL welfare benefits.' : 'Above the ₹3.0 LPA ceiling for BPL grants; eligible for commercial credit guarantee loans.'}</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 text-xs">
+            <h5 class="font-bold text-white text-sm">📋 Real-Time Gap Analysis & Action Plan</h5>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-emerald-500/30 flex items-center justify-between">
+                <span class="text-slate-200">Aadhaar Card Verification</span>
+                <span class="text-emerald-400 font-bold">READY ✅</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-emerald-500/30 flex items-center justify-between">
+                <span class="text-slate-200">Caste Certificate Proof</span>
+                <span class="text-emerald-400 font-bold">READY ✅</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-emerald-500/30 flex items-center justify-between">
+                <span class="text-slate-200">Income Tax / Tehsildar Proof</span>
+                <span class="text-emerald-400 font-bold">READY ✅</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-amber-500/50 flex items-center justify-between">
+                <span class="text-amber-300">Udyam MSME Registration</span>
+                <span class="text-amber-400 font-bold">GAP IDENTIFIED ⚠️</span>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-500/30 text-slate-300 font-mono text-[11px]">
+              🚀 <strong class="text-[#FFB800]">Recommended Action:</strong> Click below to generate your free Udyam MSME Registration portal application link to fulfill the 1 missing document gap in 5 minutes!
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // GEOLOCATION AUTHORIZED BANKS DATABASE & ENGINE
+    let currentBankDistrict = currentProfile.district ? `${currentProfile.district}, ${currentProfile.state}` : 'Chennai, Tamil Nadu';
+    
+    const nearbyBanksDatabase = [
+      { id: 'b1', name: 'State Bank of India (Main Nodal Branch)', code: 'SBIN0000800', district: 'Chennai, Tamil Nadu', distKm: 0.8, schemeTypes: ['NSFDC', 'PMEGP', 'MUDRA', 'STANDUP'], maxLimit: '₹50 Lakhs', rate: '6.0% p.a.', rating: '99.2%', officer: 'K. Rajan (Chief Manager)', phone: '+91 94440 12345', address: 'No. 22, Mount Road, Anna Salai, Chennai' },
+      { id: 'b2', name: 'Canara Bank (Micro Enterprise Finance Hub)', code: 'CNRB0001234', district: 'Chennai, Tamil Nadu', distKm: 1.4, schemeTypes: ['NSFDC', 'PMEGP', 'MUDRA'], maxLimit: '₹25 Lakhs', rate: '6.25% p.a.', rating: '97.8%', officer: 'S. Meenakshi (SME Credit Officer)', phone: '+91 98401 67890', address: '104, T. Nagar Main Road, Chennai' },
+      { id: 'b3', name: 'Indian Overseas Bank (Lead District Nodal Office)', code: 'IOBA0000555', district: 'Chennai, Tamil Nadu', distKm: 2.1, schemeTypes: ['NSFDC', 'STANDUP', 'PMEGP'], maxLimit: '₹1 Crore', rate: '6.5% p.a.', rating: '96.5%', officer: 'R. Venkatesh (LDB Nodal Manager)', phone: '+91 94451 98765', address: '763, Anna Salai, Thousand Lights, Chennai' },
+      { id: 'b4', name: 'Punjab National Bank (SC/ST Special Desk)', code: 'PUNB0008888', district: 'Chennai, Tamil Nadu', distKm: 3.2, schemeTypes: ['NSFDC', 'MUDRA', 'PMEGP'], maxLimit: '₹15 Lakhs', rate: '6.0% p.a.', rating: '98.1%', officer: 'A. Kumar (Credit Officer)', phone: '+91 98765 43210', address: '45, Cathedral Road, Gopalapuram, Chennai' },
+      { id: 'b5', name: 'State Bank of India (Coimbatore Main Branch)', code: 'SBIN0000404', district: 'Coimbatore, Tamil Nadu', distKm: 1.1, schemeTypes: ['NSFDC', 'PMEGP', 'MUDRA', 'STANDUP'], maxLimit: '₹50 Lakhs', rate: '6.0% p.a.', rating: '98.9%', officer: 'M. Sundaram (Nodal Officer)', phone: '+91 94220 11223', address: 'Opp. Railway Station, DB Road, Coimbatore' },
+      { id: 'b6', name: 'Canara Bank (Coimbatore Industrial SME Hub)', code: 'CNRB0004455', district: 'Coimbatore, Tamil Nadu', distKm: 2.3, schemeTypes: ['PMEGP', 'STANDUP'], maxLimit: '₹75 Lakhs', rate: '6.25% p.a.', rating: '97.2%', officer: 'P. Anand (SME Manager)', phone: '+91 98422 33445', address: 'Gandhipuram 10th Street, Coimbatore' },
+      { id: 'b7', name: 'State Bank of India (Bengaluru Main Nodal)', code: 'SBIN0000999', district: 'Bengaluru, Karnataka', distKm: 0.9, schemeTypes: ['NSFDC', 'PMEGP', 'MUDRA', 'STANDUP'], maxLimit: '₹1 Crore', rate: '6.0% p.a.', rating: '99.5%', officer: 'V. Rao (AGM Micro-Credit)', phone: '+91 98800 55667', address: 'MG Road, Commercial Plaza, Bengaluru' },
+      { id: 'b8', name: 'State Bank of India (Mumbai Fort SC Desk)', code: 'SBIN0000300', district: 'Mumbai, Maharashtra', distKm: 1.2, schemeTypes: ['NSFDC', 'PMEGP', 'MUDRA', 'STANDUP'], maxLimit: '₹1 Crore', rate: '6.0% p.a.', rating: '99.1%', officer: 'D. Patil (Chief Credit Manager)', phone: '+91 98200 77889', address: 'Fort Commercial Complex, Horniman Circle, Mumbai' }
+    ];
+
+    function updateBankLocation(val) {
+      currentBankDistrict = val;
+      const tag = document.getElementById('bank-district-tag');
+      if (tag) tag.innerText = val;
+      renderBankCards();
+    }
+
+    function renderBankCards() {
+      const grid = document.getElementById('nearby-banks-grid');
+      if (!grid) return;
+
+      const searchVal = (document.getElementById('bank-search-input')?.value || '').toLowerCase();
+      const schemeFilter = document.getElementById('bank-scheme-select')?.value || 'ALL';
+      const selectDist = document.getElementById('bank-district-select')?.value || currentBankDistrict;
+
+      const filtered = nearbyBanksDatabase.filter(b => {
+        const matchDist = b.district.toLowerCase().includes(selectDist.split(',')[0].toLowerCase());
+        const matchScheme = schemeFilter === 'ALL' || b.schemeTypes.includes(schemeFilter);
+        const matchQ = !searchVal || b.name.toLowerCase().includes(searchVal) || b.address.toLowerCase().includes(searchVal) || b.officer.toLowerCase().includes(searchVal);
+        return matchDist && matchScheme && matchQ;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-3 text-center py-10 text-slate-400 font-mono">No authorized government bank branches found for this filter. Try selecting 'ALL Scheme Allocations' or another district.</div>`;
+        return;
+      }
+
+      grid.innerHTML = '';
+      filtered.forEach(b => {
+        grid.innerHTML += `
+          <div class="tilt-card p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-4 hover:border-[#00E5CC]">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#00E5CC]/20 text-[#00E5CC] border border-[#00E5CC]/40">📍 ${b.distKm} km AWAY</span>
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-[#FFB800] ml-1">${b.code}</span>
+              </div>
+              <span class="text-xs font-mono font-bold text-emerald-400">Score: ${b.rating}</span>
+            </div>
+
+            <div>
+              <h3 class="text-base font-bold font-heading text-white leading-snug">${b.name}</h3>
+              <p class="text-xs text-slate-400 font-mono mt-1">🏠 ${b.address}</p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 grid grid-cols-2 gap-2 text-xs font-mono">
+              <div>
+                <span class="text-[10px] text-slate-400 block">SANCTION LIMIT</span>
+                <span class="font-bold text-[#FFB800]">${b.maxLimit}</span>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 block">CONCESSION RATE</span>
+                <span class="font-bold text-emerald-400">${b.rate}</span>
+              </div>
+            </div>
+
+            <div class="text-xs space-y-1 font-mono text-slate-300 pt-1 border-t border-slate-900">
+              <div>👨‍💼 Nodal Officer: <strong class="text-white">${b.officer}</strong></div>
+              <div>📞 Contact: <strong class="text-[#00E5CC]">${b.phone}</strong></div>
+            </div>
+
+            <button onclick="openDirectApplyModal('scheme-1', '${b.name}')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#00E5CC] to-teal-500 text-black font-extrabold text-xs shadow-md cursor-pointer hover:scale-[1.01] transition-transform">
+              Select Bank & Apply Scheme 🏦
+            </button>
+          </div>
+        `;
+      });
+    }
+    renderBankCards();
+
+    // IN-WEBSITE DIRECT SCHEME APPLICATION & DOCUMENT LOCKER PORTAL LOGIC
+    let currentSelectedSchemeForApply = null;
+    let currentSelectedBankForApply = 'State Bank of India (Main Nodal Branch)';
+    let currentUploadedDocs = [
+      { id: 'doc-1', title: 'Aadhaar Card Copy (UIDAI Verified)', file: 'Aadhaar_Card_Sriram.pdf', size: '1.2 MB', status: 'ATTACHED ✅', isMandatory: true },
+      { id: 'doc-2', title: 'Caste Certificate Proof (SC Quota)', file: 'Caste_Certificate_SC.pdf', size: '850 KB', status: 'ATTACHED ✅', isMandatory: true },
+      { id: 'doc-3', title: 'Income Tax / Tehsildar Proof (₹2.5 LPA)', file: 'Income_Proof_2.5LPA.pdf', size: '1.1 MB', status: 'ATTACHED ✅', isMandatory: true },
+      { id: 'doc-4', title: 'Detailed Business DPR / Project Report', file: 'Project_DPR_Textile.pdf', size: '3.4 MB', status: 'ATTACHED ✅', isMandatory: true },
+      { id: 'doc-5', title: 'Udyam MSME Registration Certificate', file: 'Udyam_MSME_Cert.pdf', size: '920 KB', status: 'ATTACHED ✅', isMandatory: false }
+    ];
+
+    function openDirectApplyModal(schemeId, bankName = null) {
+      const scheme = masterSchemes3500.find(s => s.id === schemeId) || masterSchemes3500[0];
+      currentSelectedSchemeForApply = scheme;
+      if (bankName) currentSelectedBankForApply = bankName;
+
+      const titleEl = document.getElementById('apply-modal-title');
+      if (titleEl) titleEl.innerText = `Direct Scheme Application: ${scheme.title}`;
+      
+      const userEl = document.getElementById('apply-user-name');
+      if (userEl) userEl.innerText = `${currentProfile.name}`;
+      
+      const metaEl = document.getElementById('apply-user-meta');
+      if (metaEl) metaEl.innerText = `Category: ${currentProfile.caste} • Income: ₹${currentProfile.lpaIncome} LPA • Age: ${currentProfile.age} Yrs • ${currentProfile.district}`;
+      
+      const bankEl = document.getElementById('apply-bank-name');
+      if (bankEl) bankEl.innerText = currentSelectedBankForApply;
+      
+      const bMetaEl = document.getElementById('apply-bank-meta');
+      if (bMetaEl) bMetaEl.innerText = `Rate: ${currentProfile.caste === 'SC' || currentProfile.caste === 'ST' ? '6.0% p.a.' : '8.5% p.a.'} • Subsidy Approval: 99.2%`;
+
+      renderUploadedDocsList();
+      document.getElementById('direct-apply-modal').style.display = 'flex';
+    }
+
+    function closeDirectApplyModal() {
+      document.getElementById('direct-apply-modal').style.display = 'none';
+    }
+
+    function renderUploadedDocsList() {
+      const list = document.getElementById('uploaded-docs-list');
+      if (!list) return;
+
+      list.innerHTML = '';
+      currentUploadedDocs.forEach((doc, idx) => {
+        list.innerHTML += `
+          <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="text-base">📄</span>
+              <div>
+                <div class="font-bold text-white">${doc.title}</div>
+                <div class="text-[10px] font-mono text-slate-400">${doc.file} (${doc.size})</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">${doc.status}</span>
+              <button onclick="removeDoc(${idx})" class="text-slate-400 hover:text-red-400 font-bold px-2 py-1">✕</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function removeDoc(idx) {
+      currentUploadedDocs.splice(idx, 1);
+      renderUploadedDocsList();
+    }
+
+    // SIMULATED DISTRICT NODAL OFFICER (SCA) VERIFICATION DESK LOGIC
+    function openNodalOfficerModal(schemeId = null) {
+      const scheme = masterSchemes3500.find(s => s.id === schemeId) || masterSchemes3500[0];
+      const container = document.getElementById('nodal-desk-content');
+      if (!container) return;
+
+      const titleEl = document.getElementById('nodal-modal-title');
+      if (titleEl) titleEl.innerText = `District Nodal Officer Desk: ${scheme.title}`;
+
+      container.innerHTML = `
+        <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="text-lg font-bold text-white font-heading">Dr. K. Rajan, IAS</h4>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">CHIEF EXECUTIVE NODAL OFFICER</span>
+              </div>
+              <p class="text-xs text-slate-300 font-mono mt-1">📍 District SC/ST Financial Development Corporation (${currentProfile.district} TAHDCO HQ), ${currentProfile.state}</p>
+            </div>
+            <div class="text-xs font-mono text-slate-400">
+              <div>Public Hours: <strong class="text-white">10:00 AM - 4:00 PM</strong></div>
+              <div>Direct Nodal Line: <strong class="text-[#00E5CC]">+91 94440 12345</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-950 to-slate-900 border border-[#00E5CC]/40 space-y-4">
+          <h4 class="text-xs font-mono font-bold text-[#00E5CC] uppercase tracking-wider">⚡ REAL-TIME NODAL SCRUTINY & SUBSIDY SANCTION PIPELINE FOR ${currentProfile.name.toUpperCase()}</h4>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3 rounded-xl bg-slate-900 border border-emerald-500/30 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold text-base">✅</span>
+                <span>Stage 1: Pre-Qualification & Age Verification (${currentProfile.age} Yrs Old, DOB: ${currentProfile.dob})</span>
+              </div>
+              <span class="font-mono text-emerald-400 font-bold">VERIFIED</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900 border border-emerald-500/30 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold text-base">✅</span>
+                <span>Stage 2: Social Reservation Quota (${currentProfile.caste}) & Income Cap (₹${currentProfile.lpaIncome} LPA)</span>
+              </div>
+              <span class="font-mono text-emerald-400 font-bold">QUALIFIED (35% Grant)</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900 border border-emerald-500/30 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold text-base">✅</span>
+                <span>Stage 3: Verification Documents Locker (Aadhaar, Caste, Income Proof & DPR Attached)</span>
+              </div>
+              <span class="font-mono text-emerald-400 font-bold">5/5 ATTACHED</span>
+            </div>
+
+            <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-500/40 text-slate-200 font-mono space-y-1">
+              <div class="text-[#FFB800] font-bold">📜 OFFICIAL NODAL SUBSIDY SANCTION SUMMARY:</div>
+              <div>Scheme Allocated: <strong class="text-white">${scheme.title}</strong></div>
+              <div>Sanctioned Capital Grant: <strong class="text-emerald-400">35% Margin Money Subsidy (up to ₹1,75,000)</strong></div>
+              <div>Lead Authorized Bank Assigned: <strong class="text-[#00E5CC]">State Bank of India (Main Nodal Branch - ${currentProfile.district})</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-2">
+          <button onclick="alert('Generating Official Nodal Sanction Certificate for ' + currentProfile.name + ' for scheme: ${scheme.title}...');" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold border border-slate-700 hover:bg-slate-700 cursor-pointer">
+            Generate Official Sanction Certificate 📄
+          </button>
+          <button onclick="closeNodalOfficerModal(); openDirectApplyModal('${scheme.id}', 'State Bank of India (Main Nodal Branch)');" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs shadow-lg hover:scale-105 transition-transform cursor-pointer">
+            Proceed to In-Website Bank Submission 🚀
+          </button>
+        </div>
+      `;
+
+      document.getElementById('nodal-officer-modal').style.display = 'flex';
+    }
+
+    function closeNodalOfficerModal() {
+      document.getElementById('nodal-officer-modal').style.display = 'none';
+    }
+
+    function triggerSimulatedFileUpload() {
+      const docNames = ['Bank Account Passbook Front Page', 'GST Registration Proof', 'Educational Marksheet / Degree Certificate', 'Land Ownership / Patta Copy'];
+      const pickName = docNames[Math.floor(Math.random() * docNames.length)];
+      const fileName = pickName.toLowerCase().replace(/ /g, '_') + '.pdf';
+
+      currentUploadedDocs.push({
+        id: `doc-${Date.now()}`,
+        title: pickName,
+        file: fileName,
+        size: `${(Math.random() * 2 + 0.5).toFixed(1)} MB`,
+        status: 'ATTACHED ✅',
+        isMandatory: false
+      });
+      renderUploadedDocsList();
+    }
+
+    // Submitted Applications Array in localStorage
+    let savedApplications = [
+      {
+        appId: 'APP-2026-TN-89412',
+        schemeTitle: 'Post-Matric Scholarship for SC/ST Students',
+        schemeCode: 'NSP-POST-MATRIC-1',
+        bankName: 'State Bank of India (Main Nodal Branch)',
+        appliedDate: '18 Sep 2026',
+        docsCount: 4,
+        status: 'IN REVIEW BY BANK NODAL OFFICER 🟡',
+        step: 2
+      }
+    ];
+
+    try {
+      const stored = localStorage.getItem('scorpius_applications');
+      if (stored) savedApplications = JSON.parse(stored);
+    } catch(e) {}
+
+    function submitDirectSchemeApplication() {
+      if (!currentSelectedSchemeForApply) currentSelectedSchemeForApply = masterSchemes3500[0];
+
+      const stateCode = (currentProfile.state || 'TN').slice(0, 2).toUpperCase();
+      const appNum = `APP-2026-${stateCode}-${Math.floor(10000 + Math.random() * 90000)}`;
+      const newApp = {
+        appId: appNum,
+        schemeTitle: currentSelectedSchemeForApply.title,
+        schemeCode: currentSelectedSchemeForApply.code,
+        bankName: currentSelectedBankForApply,
+        appliedDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+        docsCount: currentUploadedDocs.length,
+        status: 'IN REVIEW BY BANK NODAL OFFICER 🟡',
+        step: 2
+      };
+
+      savedApplications.unshift(newApp);
+      localStorage.setItem('scorpius_applications', JSON.stringify(savedApplications));
+
+      closeDirectApplyModal();
+      renderDashboard();
+
+      alert(`🎉 APPLICATION SUBMITTED SUCCESSFULLY!\n\nApplication Reference Number: ${appNum}\nScheme: ${currentSelectedSchemeForApply.title}\nAssigned Nodal Bank: ${currentSelectedBankForApply}\nStatus: IN REVIEW BY NODAL OFFICER\n\nYou can track this live application anytime under 'My Dashboard'!`);
+    }
+
+    function renderDashboard() {
+      const container = document.getElementById('beneficiary-dashboard-container');
+      const isSCST = currentProfile.caste === 'SC' || currentProfile.caste === 'ST';
+
+      container.innerHTML = `
+        <div class="rounded-3xl bg-slate-900/90 border border-[#FFB800]/40 p-6 sm:p-8 backdrop-blur-2xl shadow-2xl mb-6">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+              ${generateSvgAvatar(currentProfile.name, 56)}
+              <div>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-2xl font-black font-heading text-white">${currentProfile.name}</h2>
+                  <span class="px-2.5 py-0.5 rounded-full bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40 text-xs font-mono font-bold">${currentProfile.caste} CATEGORY</span>
+                </div>
+                <p class="text-xs text-slate-300 font-mono mt-1">📍 ${currentProfile.district}, ${currentProfile.state} • Age: ${currentProfile.age} Yrs (DOB: ${currentProfile.dob})</p>
+                <div class="flex items-center gap-3 mt-2 text-xs font-mono text-slate-400">
+                  <span>Income: <strong class="text-emerald-400">₹${currentProfile.lpaIncome} LPA</strong></span> • 
+                  <span>Status: <strong class="text-amber-300">${currentProfile.entrepreneurStatus}</strong></span>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button onclick="openProfileIntake()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold border border-slate-700 hover:bg-slate-700">Update Profile & DOB</button>
+              <button onclick="alert('Exporting Readiness Dossier for ' + currentProfile.name)" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs shadow-lg">Export Readiness Dossier 📄</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK INTERACTIVE SMART SUITE & GUIDANCE MODULES UNDER USER DETAILS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <!-- Smart Loan & EMI Quick Simulator Widget -->
+          <div onclick="openSmartLoanModal()" class="p-6 rounded-3xl bg-slate-900 border border-[#00E5CC]/40 space-y-3 cursor-pointer hover:border-[#00E5CC] transition-all hover:scale-[1.01]">
+            <div class="flex justify-between items-center">
+              <span class="px-2.5 py-0.5 rounded-full bg-[#00E5CC]/10 text-[#00E5CC] border border-[#00E5CC]/30 text-[10px] font-mono font-bold">SMART LOAN SUITE</span>
+              <span class="text-xs font-mono text-emerald-400 font-bold">${isSCST ? '35% Grant Subsidy' : '15% Grant Subsidy'}</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-white">Smart Loan & EMI Recommendation System 🧮</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">Calculate exact loan subsidies, monthly EMI burden, and interest concessions for <strong>${currentProfile.name}</strong> (${currentProfile.caste} Category).</p>
+            <div class="pt-2 flex justify-between items-center">
+              <span class="text-xs font-mono text-[#00E5CC]">Calculated Rate: 6.0% p.a.</span>
+              <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E5CC] to-teal-500 text-black font-extrabold text-xs">Simulate Loan & EMI →</button>
+            </div>
+          </div>
+
+          <!-- Clear Eligibility Guidance Quick Widget -->
+          <div onclick="openEligibilityGuidanceModal()" class="p-6 rounded-3xl bg-slate-900 border border-[#FFB800]/40 space-y-3 cursor-pointer hover:border-[#FFB800] transition-all hover:scale-[1.01]">
+            <div class="flex justify-between items-center">
+              <span class="px-2.5 py-0.5 rounded-full bg-[#FFB800]/10 text-[#FFB800] border border-[#FFB800]/30 text-[10px] font-mono font-bold">TRANSPARENCY ENGINE</span>
+              <span class="text-xs font-mono text-emerald-400 font-bold">98% Match Score</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-white">Clear Eligibility Guidance & Gap Analysis 🛡️</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">Pass/Fail criteria indicators for Age (${currentProfile.age}y), Income (₹${currentProfile.lpaIncome}L), Caste (${currentProfile.caste}), and required documents.</p>
+            <div class="pt-2 flex justify-between items-center">
+              <span class="text-xs font-mono text-[#FFB800]">4/4 Requirements Passed</span>
+              <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs">View Gap Analysis →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MY SUBMITTED APPLICATIONS TRACKER BOARD -->
+        <div class="rounded-3xl bg-slate-900 border border-[#00E5CC]/40 p-6 sm:p-8 backdrop-blur-2xl shadow-2xl mb-8 space-y-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span class="px-2.5 py-0.5 rounded-full bg-[#00E5CC]/10 text-[#00E5CC] border border-[#00E5CC]/30 text-[10px] font-mono font-bold">LIVE TRACKER BOARD</span>
+              <h3 class="text-xl font-bold font-heading text-white mt-1">My Submitted Scheme Applications (${savedApplications.length})</h3>
+            </div>
+            <button onclick="openDirectApplyModal('scheme-1')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs shadow-md cursor-pointer hover:scale-105 transition-transform">
+              + Apply New Scheme Direct 🚀
+            </button>
+          </div>
+
+          ${savedApplications.length === 0 ? `
+            <div class="p-6 text-center text-slate-400 font-mono text-xs bg-slate-950 rounded-2xl border border-slate-800">
+              No active applications submitted yet. Click "+ Apply New Scheme Direct 🚀" or pick any scheme in the 3,500+ Explorer!
+            </div>
+          ` : `
+            <div class="space-y-3">
+              ${savedApplications.map(app => `
+                <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 text-xs">
+                  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="font-mono font-bold text-[#FFB800] bg-amber-500/15 px-2 py-0.5 rounded text-[11px]">${app.appId}</span>
+                        <span class="text-slate-400 font-mono text-[11px]">Applied on ${app.appliedDate}</span>
+                      </div>
+                      <h4 class="font-bold text-white text-base mt-1">${app.schemeTitle}</h4>
+                      <p class="text-slate-300 font-mono text-[11px]">🏦 Assigned Nodal Bank: <strong class="text-[#00E5CC]">${app.bankName}</strong> • ${app.docsCount} Documents Attached</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-xl text-xs font-mono font-extrabold bg-amber-500/20 text-[#FFB800] border border-[#FFB800]/40">${app.status}</span>
+                  </div>
+
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-900 text-[10px] font-mono text-center">
+                    <div class="p-2 rounded-lg bg-slate-900 border border-emerald-500/40 text-emerald-400">1. Submitted ✅</div>
+                    <div class="p-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold">2. Nodal Review 🟡</div>
+                    <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-500">3. Bank Sanction ⚪</div>
+                    <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-500">4. DBT Disbursal ⚪</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `}
+        </div>
+      `;
+    }
+    renderDashboard();
+
+    function openProfileIntake() {
+      document.getElementById('intake-modal').style.display = 'flex';
+    }
+    function closeProfileIntake() {
+      document.getElementById('intake-modal').style.display = 'none';
+    }
+    function saveProfileIntake(e) {
+      e.preventDefault();
+      const dobVal = document.getElementById('p-dob').value;
+      const dobDate = new Date(dobVal);
+      const calculatedAge = Math.abs(new Date(Date.now() - dobDate.getTime()).getUTCFullYear() - 1970);
+
+      currentProfile = {
+        name: document.getElementById('p-name').value,
+        phone: document.getElementById('p-phone').value,
+        age: calculatedAge,
+        dob: dobVal,
+        caste: document.getElementById('p-caste').value,
+        entrepreneurStatus: document.getElementById('p-status').value,
+        gender: document.getElementById('p-gender').value,
+        lpaIncome: Number(document.getElementById('p-income').value),
+        state: document.getElementById('p-state').value,
+        district: document.getElementById('p-district').value
+      };
+      localStorage.setItem('scorpius_profile', JSON.stringify(currentProfile));
+      renderUserNav();
+      renderDashboard();
+      renderExplorerGrid();
+      closeProfileIntake();
+    }
+
+    const bgCanvas = document.getElementById('bg-canvas');
+    if (bgCanvas) {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      const light1 = new THREE.DirectionalLight(0xFFB800, 1.5);
+      light1.position.set(10, 15, 10);
+      scene.add(light1);
+      const group = new THREE.Group();
+      const coinGeom = new THREE.CylinderGeometry(0.8, 0.8, 0.16, 32);
+      const coinMat = new THREE.MeshStandardMaterial({ color: 0xFFB800, metalness: 0.9, roughness: 0.2 });
+
+      for(let i=0; i<20; i++) {
+        const mesh = new THREE.Mesh(coinGeom, coinMat);
+        mesh.position.set((Math.random()-0.5)*25, (Math.random()-0.5)*25, (Math.random()-0.5)*15 - 5);
+        group.add(mesh);
+      }
+      scene.add(group);
+      camera.position.z = 12;
+
+      function animateBg() {
+        requestAnimationFrame(animateBg);
+        group.rotation.y += 0.002;
+        renderer.render(scene, camera);
+      }
+      animateBg();
+    }
+
+    // THEME SWITCHER SYSTEM (White & Orange Day vs Black & Ocean Blue Night)
+    function applyTheme(theme) {
+      const btn = document.getElementById('theme-toggle-btn');
+      if (theme === 'day') {
+        document.body.classList.remove('night-mode');
+        document.body.classList.add('day-mode');
+        if (btn) {
+          btn.innerHTML = '☀️ Day Mode (White & Orange)';
+          btn.className = 'px-3.5 py-2 rounded-xl border border-orange-300 bg-orange-50 text-xs font-mono font-bold text-orange-900 hover:border-orange-500 transition-all cursor-pointer flex items-center gap-1.5 shadow-md';
+        }
+        localStorage.setItem('scorpius_app_theme', 'day');
+      } else {
+        document.body.classList.remove('day-mode');
+        document.body.classList.add('night-mode');
+        if (btn) {
+          btn.innerHTML = '🌊 Night Mode (Black & Ocean Blue)';
+          btn.className = 'px-3.5 py-2 rounded-xl border border-sky-800 bg-slate-900 text-xs font-mono font-bold text-sky-300 hover:border-sky-400 transition-all cursor-pointer flex items-center gap-1.5 shadow-md';
+        }
+        localStorage.setItem('scorpius_app_theme', 'night');
+      }
+    }
+
+    function toggleTheme() {
+      const currentTheme = localStorage.getItem('scorpius_app_theme') || 'night';
+      applyTheme(currentTheme === 'night' ? 'day' : 'night');
+    }
+
+    // Run theme initialization immediately
+    (function initAppTheme() {
+      const savedTheme = localStorage.getItem('scorpius_app_theme') || 'night';
+      applyTheme(savedTheme);
+    })();
+  </script>
+</body>
+</html>
