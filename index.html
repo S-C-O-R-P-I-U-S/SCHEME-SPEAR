@@ -271,6 +271,13 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #FFB800;
     }
+
+    .image-rendering-crisp {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+    }
   </style>
 </head>
 <body class="day-mode antialiased selection:bg-[#EA580C] selection:text-white">
@@ -283,22 +290,20 @@
   <header id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <!-- Logo -->
-      <a href="#hero" class="flex items-center gap-2.5 group">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#FFB800] to-[#00E5CC] p-0.5 shadow-[0_0_20px_rgba(255,184,0,0.5)] group-hover:scale-105 transition-transform">
-          <div class="w-full h-full bg-[#0A0E1A] rounded-[10px] flex items-center justify-center font-bold text-[#FFB800]">
-            ⚡
-          </div>
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div id="logo-container" class="w-11 h-11 rounded-2xl bg-slate-900 p-0.5 border border-sky-500/40 shadow-[0_0_20px_rgba(2,132,199,0.35)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden">
+          <img id="app-logo" src="assets/logo-night.jpg" alt="SCHEME SPEAR Logo" class="w-full h-full object-contain rounded-xl transition-all duration-300 image-rendering-crisp" />
         </div>
         <div>
           <div class="flex items-center gap-1.5">
-            <span class="font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-white via-amber-200 to-[#FFB800] bg-clip-text text-transparent">
+            <span id="logo-text-heading" class="font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-white via-sky-200 to-cyan-400 bg-clip-text text-transparent">
               SCHEME SPEAR
             </span>
-            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
+            <span id="logo-badge" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#0284C7]/20 text-[#38BDF8] border border-[#0284C7]/40">
               3,500+ INDEX
             </span>
           </div>
-          <p class="text-[10px] font-mono text-slate-400 tracking-wider">BY TEAM SCORPIUS • SCHEME SPEAR PLATFORM</p>
+          <p id="logo-subtext" class="text-[10px] font-mono text-slate-400 tracking-wider">BY TEAM SCORPIUS • SCHEME SPEAR PLATFORM</p>
         </div>
       </a>
 
@@ -2013,12 +2018,29 @@
     // THEME SWITCHER SYSTEM (White & Orange Day vs Black & Ocean Blue Night)
     function applyTheme(theme) {
       const btn = document.getElementById('theme-toggle-btn');
+      const logoImg = document.getElementById('app-logo');
+      const logoContainer = document.getElementById('logo-container');
+      const logoText = document.getElementById('logo-text-heading');
+      const logoBadge = document.getElementById('logo-badge');
+
       if (theme === 'day') {
         document.body.classList.remove('night-mode');
         document.body.classList.add('day-mode');
         if (btn) {
           btn.innerHTML = '☀️ Day Mode (White & Orange)';
           btn.className = 'px-3.5 py-2 rounded-xl border border-orange-300 bg-orange-50 text-xs font-mono font-bold text-orange-900 hover:border-orange-500 transition-all cursor-pointer flex items-center gap-1.5 shadow-md';
+        }
+        if (logoImg) {
+          logoImg.src = 'assets/logo-day.jpg';
+        }
+        if (logoContainer) {
+          logoContainer.className = 'w-11 h-11 rounded-2xl bg-white p-0.5 border border-orange-300 shadow-[0_4px_15px_rgba(234,88,12,0.15)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
+        }
+        if (logoText) {
+          logoText.className = 'font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-slate-900 via-orange-700 to-orange-600 bg-clip-text text-transparent';
+        }
+        if (logoBadge) {
+          logoBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-orange-100 text-orange-900 border border-orange-300';
         }
         localStorage.setItem('scorpius_app_theme', 'day');
       } else {
@@ -2027,6 +2049,18 @@
         if (btn) {
           btn.innerHTML = '🌊 Night Mode (Black & Ocean Blue)';
           btn.className = 'px-3.5 py-2 rounded-xl border border-sky-800 bg-slate-900 text-xs font-mono font-bold text-sky-300 hover:border-sky-400 transition-all cursor-pointer flex items-center gap-1.5 shadow-md';
+        }
+        if (logoImg) {
+          logoImg.src = 'assets/logo-night.jpg';
+        }
+        if (logoContainer) {
+          logoContainer.className = 'w-11 h-11 rounded-2xl bg-slate-900 p-0.5 border border-sky-500/40 shadow-[0_0_20px_rgba(2,132,199,0.35)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
+        }
+        if (logoText) {
+          logoText.className = 'font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-white via-sky-200 to-cyan-400 bg-clip-text text-transparent';
+        }
+        if (logoBadge) {
+          logoBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#0284C7]/20 text-[#38BDF8] border border-[#0284C7]/40';
         }
         localStorage.setItem('scorpius_app_theme', 'night');
       }
