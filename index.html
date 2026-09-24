@@ -291,8 +291,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <!-- Logo -->
       <a href="#hero" class="flex items-center gap-3 group">
-        <div id="logo-container" class="w-11 h-11 rounded-2xl bg-slate-900 p-0.5 border border-sky-500/40 shadow-[0_0_20px_rgba(2,132,199,0.35)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden">
-          <img id="app-logo" src="assets/logo-night.jpg" alt="SCHEME SPEAR Logo" class="w-full h-full object-contain rounded-xl transition-all duration-300 image-rendering-crisp" />
+        <div id="logo-gradient-ring" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0284C7] via-[#06B6D4] to-[#38BDF8] p-[2px] shadow-[0_0_20px_rgba(2,132,199,0.45)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden">
+          <div id="logo-inner-box" class="w-full h-full bg-[#0A0E1A] rounded-[14px] flex items-center justify-center overflow-hidden p-0.5">
+            <img id="app-logo" src="assets/logo-night.jpg" alt="SCHEME SPEAR Logo" class="w-full h-full object-contain rounded-[12px] transition-all duration-300 image-rendering-crisp" />
+          </div>
         </div>
         <div>
           <div class="flex items-center gap-1.5">
@@ -2019,7 +2021,8 @@
     function applyTheme(theme) {
       const btn = document.getElementById('theme-toggle-btn');
       const logoImg = document.getElementById('app-logo');
-      const logoContainer = document.getElementById('logo-container');
+      const logoRing = document.getElementById('logo-gradient-ring');
+      const logoInner = document.getElementById('logo-inner-box');
       const logoText = document.getElementById('logo-text-heading');
       const logoBadge = document.getElementById('logo-badge');
 
@@ -2033,11 +2036,14 @@
         if (logoImg) {
           logoImg.src = 'assets/logo-day.jpg';
         }
-        if (logoContainer) {
-          logoContainer.className = 'w-11 h-11 rounded-2xl bg-white p-0.5 border border-orange-300 shadow-[0_4px_15px_rgba(234,88,12,0.15)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
+        if (logoRing) {
+          logoRing.className = 'w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#EA580C] via-[#F97316] to-amber-400 p-[2px] shadow-[0_4px_18px_rgba(234,88,12,0.25)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
+        }
+        if (logoInner) {
+          logoInner.className = 'w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden p-0.5';
         }
         if (logoText) {
-          logoText.className = 'font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-slate-900 via-orange-700 to-orange-600 bg-clip-text text-transparent';
+          logoText.className = 'font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-slate-900 via-orange-700 to-[#EA580C] bg-clip-text text-transparent';
         }
         if (logoBadge) {
           logoBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-orange-100 text-orange-900 border border-orange-300';
@@ -2053,8 +2059,11 @@
         if (logoImg) {
           logoImg.src = 'assets/logo-night.jpg';
         }
-        if (logoContainer) {
-          logoContainer.className = 'w-11 h-11 rounded-2xl bg-slate-900 p-0.5 border border-sky-500/40 shadow-[0_0_20px_rgba(2,132,199,0.35)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
+        if (logoRing) {
+          logoRing.className = 'w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0284C7] via-[#06B6D4] to-[#38BDF8] p-[2px] shadow-[0_0_20px_rgba(2,132,199,0.45)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
+        }
+        if (logoInner) {
+          logoInner.className = 'w-full h-full bg-[#0A0E1A] rounded-[14px] flex items-center justify-center overflow-hidden p-0.5';
         }
         if (logoText) {
           logoText.className = 'font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-white via-sky-200 to-cyan-400 bg-clip-text text-transparent';
