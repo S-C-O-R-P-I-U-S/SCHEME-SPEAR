@@ -745,42 +745,45 @@
           </div>
         </div>
 
-        <!-- SIDE B: 📝 COMPLETE CITIZEN REGISTRATION / PROFILE INTAKE FORM -->
+        <!-- SIDE B: 📝 PERSONALIZED AI SCHEME MATCHER (BENEFICIARY PROFILE INTAKE) -->
         <div id="auth-side-register" class="space-y-4 hidden">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <div>
-              <span class="px-2.5 py-0.5 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-[10px] font-mono font-bold">REGISTRATION INTAKE</span>
-              <h3 class="text-xl font-bold font-heading text-white">Capture Citizen Details</h3>
+            <div class="flex-1 text-center pr-2">
+              <span class="inline-block px-4 py-1 rounded-full bg-[#00E5CC]/15 border border-[#00E5CC]/40 text-[#00E5CC] text-[11px] font-mono font-bold tracking-wider uppercase mb-1">
+                BENEFICIARY PROFILE INTAKE
+              </span>
+              <h3 class="text-2xl sm:text-3xl font-black font-heading text-white tracking-tight">Personalized AI Scheme Matcher</h3>
+              <p class="text-xs text-slate-300 font-mono mt-1">Provide your details to match official NSFDC, Stand-Up India & MUDRA schemes.</p>
             </div>
-            <button onclick="slide3dToLogin()" class="px-3 py-1 rounded-xl bg-slate-900 border border-slate-700 text-xs text-[#00E5CC] font-mono hover:bg-slate-800 cursor-pointer">
+            <button onclick="slide3dToLogin()" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-[#00E5CC] font-mono hover:bg-slate-800 cursor-pointer whitespace-nowrap">
               ← Back to Login
             </button>
           </div>
 
-          <form onsubmit="saveProfileIntake(event)" class="space-y-3.5">
+          <form onsubmit="saveProfileIntake(event)" class="space-y-3.5 pt-1">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
-                <input type="text" id="p-name" required value="Sriram Suresh" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+                <input type="text" id="p-name" required value="Sriram Suresh" class="w-full px-4 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-white outline-none focus:border-[#00E5CC]">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Mobile Phone (+91)</label>
-                <input type="tel" id="p-phone" required value="8056992589" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number</label>
+                <input type="tel" id="p-phone" required value="8056992589" class="w-full px-4 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-white outline-none focus:border-[#00E5CC]">
               </div>
             </div>
 
             <div class="grid grid-cols-3 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Date of Birth (DOB)</label>
-                <input type="date" id="p-dob" required value="2000-05-15" onchange="handleDobChange(this.value)" class="w-full px-2 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-[#00E5CC] font-bold outline-none">
+                <input type="date" id="p-dob" required value="2000-05-15" onchange="handleDobChange(this.value)" class="w-full px-2.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-[#00E5CC] font-bold outline-none">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Calculated Age</label>
-                <input type="number" id="p-age" readonly value="26" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-[#FFB800] font-bold outline-none cursor-not-allowed">
+                <input type="number" id="p-age" readonly value="26" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-[#FFB800] font-bold outline-none cursor-not-allowed">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Gender</label>
-                <select id="p-gender" class="w-full px-2 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+                <select id="p-gender" class="w-full px-2.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-white outline-none">
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Transgender">Transgender</option>
@@ -790,7 +793,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Social / Caste Category</label>
-              <select id="p-caste" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-[#FFB800] font-bold outline-none">
+              <select id="p-caste" class="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-[#FFB800] font-bold outline-none">
                 <option value="SC">Scheduled Caste (SC) - NSFDC Priority</option>
                 <option value="ST">Scheduled Tribe (ST)</option>
                 <option value="OBC">Other Backward Class (OBC)</option>
@@ -803,7 +806,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Entrepreneur Status</label>
-                <select id="p-status" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+                <select id="p-status" class="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-white outline-none">
                   <option value="Aspiring / New Micro-Unit">Aspiring / New Micro-Unit</option>
                   <option value="Existing Micro-Entrepreneur">Existing Micro-Entrepreneur</option>
                   <option value="Self-Help Group (SHG)">Self-Help Group (SHG)</option>
@@ -811,23 +814,23 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Average Income (LPA in ₹)</label>
-                <input type="number" id="p-income" step="0.5" value="2.5" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-[#00E5CC] font-bold outline-none">
+                <input type="number" id="p-income" step="0.5" value="2.5" required class="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-[#00E5CC] font-bold outline-none">
               </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">State</label>
-                <input type="text" id="p-state" value="Tamil Nadu" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+                <input type="text" id="p-state" value="Tamil Nadu" required class="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-white outline-none">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">District</label>
-                <input type="text" id="p-district" value="Chennai" required class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none">
+                <input type="text" id="p-district" value="Chennai" required class="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700/80 text-xs font-mono text-white outline-none">
               </div>
             </div>
 
-            <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs cursor-pointer shadow-lg hover:scale-[1.01] transition-transform">
-              Save Profile & Generate Dashboard 🚀
+            <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-[#00E5CC] via-teal-400 to-[#0284C7] text-slate-950 font-black font-heading text-sm cursor-pointer shadow-[0_0_25px_rgba(0,229,204,0.4)] hover:scale-[1.01] transition-transform">
+              Generate Matched Schemes Dashboard 🚀
             </button>
           </form>
         </div>
