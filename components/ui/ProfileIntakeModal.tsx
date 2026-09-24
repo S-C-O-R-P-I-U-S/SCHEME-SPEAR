@@ -33,6 +33,18 @@ export default function ProfileIntakeModal({
     tradeType: initialData?.tradeType || 'Food Processing & Agri Micro-Unit',
   });
 
+  const calculateAgeFromDOB = (dobString: string): number => {
+    if (!dobString) return 26;
+    const dob = new Date(dobString);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    return Math.max(0, age);
+  };
+
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -127,7 +139,11 @@ export default function ProfileIntakeModal({
                       type="date"
                       required
                       value={formData.dob}
-                      onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+                      onChange={(e) => {
+                        const newDob = e.target.value;
+                        const computedAge = calculateAgeFromDOB(newDob);
+                        setFormData({ ...formData, dob: newDob, age: computedAge });
+                      }}
                       className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white focus:border-[#00E5CC] outline-none"
                     />
                   </div>

@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Preloader from '@/components/ui/Preloader';
-import CursorTrail from '@/components/ui/CursorTrail';
 
 export const metadata: Metadata = {
-  title: 'SCHEME SPEAR | Team SCORPIUS - SIH 2026 (PS26092)',
+  title: 'SCHEME SPEAR | AI-Powered Government Welfare Scheme Discovery & Direct Application Portal',
   description: 'AI-Driven Scheme Matching & Financial Inclusion for Marginalized Entrepreneurs across India.',
-  keywords: 'SCHEME SPEAR, SCORPIUS, SIH 2026, PS26092, Smart India Hackathon, AI Scheme Matching, NSFDC, Financial Inclusion',
+  keywords: 'SCHEME SPEAR, AI Scheme Matching, NSFDC, Welfare Schemes, Financial Inclusion, Government Schemes',
 };
 
 export default function RootLayout({
@@ -23,7 +22,6 @@ export default function RootLayout({
       </head>
       <body className="bg-[#0A0E1A] text-slate-100 font-sans antialiased selection:bg-[#FFB800] selection:text-black">
         <Preloader />
-        <CursorTrail />
         {children}
       </body>
     </html>

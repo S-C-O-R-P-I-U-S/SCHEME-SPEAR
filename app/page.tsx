@@ -11,12 +11,9 @@ import SchemesPlatform from '@/components/SchemesPlatform';
 import HeroSection from '@/components/sections/HeroSection';
 import FeaturesSection from '@/components/sections/FeaturesSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
-import ProblemSection from '@/components/sections/ProblemSection';
-import TechStackSection from '@/components/sections/TechStackSection';
 import ArchitectureSection from '@/components/sections/ArchitectureSection';
 import FeasibilitySection from '@/components/sections/FeasibilitySection';
 import ImpactSection from '@/components/sections/ImpactSection';
-import ResearchSection from '@/components/sections/ResearchSection';
 import ContactFooter from '@/components/sections/ContactFooter';
 
 const BackgroundCanvas = dynamic(() => import('@/components/canvas/BackgroundCanvas'), {
@@ -42,7 +39,7 @@ export default function Home() {
         <UserProfileDashboard />
       </div>
 
-      {/* 3,400+ Schemes Search & Multi-Faceted Filter Platform */}
+      {/* 3,500+ Schemes Search & Multi-Faceted Filter Platform */}
       <div id="scheme-search-section" className="relative z-20 my-8">
         <SchemesPlatform />
       </div>
@@ -50,12 +47,9 @@ export default function Home() {
       {/* Main Site Sections */}
       <FeaturesSection />
       <HowItWorksSection onOpenAuth={auth.openAuthModal} />
-      <ProblemSection />
-      <TechStackSection />
       <ArchitectureSection />
       <FeasibilitySection />
       <ImpactSection />
-      <ResearchSection />
       <ContactFooter />
 
       {/* Modals */}

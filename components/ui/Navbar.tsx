@@ -8,14 +8,13 @@ import Avatar from './Avatar';
 
 const navLinks = [
   { name: 'Home', href: '#hero' },
+  { name: 'My Profile', href: '#profile-dashboard-section' },
+  { name: '3,500+ Schemes', href: '#scheme-search-section' },
   { name: 'Features', href: '#features' },
   { name: 'How It Works', href: '#how-it-works' },
-  { name: 'Problem', href: '#problem' },
-  { name: 'Tech Stack', href: '#tech-stack' },
   { name: 'Architecture', href: '#architecture' },
   { name: 'Feasibility', href: '#feasibility' },
   { name: 'Impact', href: '#impact' },
-  { name: 'Research', href: '#research' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -53,7 +52,7 @@ export default function Navbar({ auth }: { auth: ReturnType<typeof useAuth> }) {
                 SCHEME SPEAR
               </span>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40">
-                SIH 2026
+                3,500+ INDEX
               </span>
             </div>
             <p className="text-[10px] font-mono text-slate-400 tracking-wider">BY TEAM SCORPIUS</p>

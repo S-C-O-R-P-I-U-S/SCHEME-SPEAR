@@ -59,7 +59,7 @@ export default function Preloader() {
           </motion.h2>
 
           <p className="text-xs uppercase tracking-[0.3em] text-slate-400 mt-2 font-mono">
-            TEAM SCORPIUS • SIH 2026
+            TEAM SCORPIUS • SCHEME SPEAR PLATFORM
           </p>
 
           {/* Progress Bar & Percentage */}

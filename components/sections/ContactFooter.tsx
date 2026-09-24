@@ -144,7 +144,7 @@ export default function ContactFooter() {
                     <textarea
                       rows={4}
                       required
-                      placeholder="Write your inquiry regarding PS26092..."
+                      placeholder="Write your scheme inquiry or support request..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder:text-slate-600 focus:border-[#FFB800] outline-none transition-colors"
@@ -164,7 +164,7 @@ export default function ContactFooter() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono gap-4">
           <div>
-            © 2026 <strong className="text-white">SCORPIUS</strong>. Smart India Hackathon 2026 Project (PS26092).
+            © 2026 <strong className="text-white">SCORPIUS</strong>. SCHEME SPEAR Master Explorer Platform.
           </div>
           <div className="flex items-center gap-6">
             <a href="#hero" className="hover:text-[#FFB800] transition-colors">Back to Top ↑</a>

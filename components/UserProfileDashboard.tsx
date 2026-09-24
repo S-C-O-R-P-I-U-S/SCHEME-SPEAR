@@ -255,6 +255,18 @@ export function matchSchemeForUser(scheme: SchemeItem, profile: UserProfileData)
 // 3. MAIN PROFILE DASHBOARD COMPONENT
 // ==========================================
 
+const calculateAgeFromDOB = (dobString: string): number => {
+  if (!dobString) return 26;
+  const dob = new Date(dobString);
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const monthDiff = today.getMonth() - dob.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+    age--;
+  }
+  return Math.max(0, age);
+};
+
 export default function UserProfileDashboard() {
   const [profile, setProfile] = useState<UserProfileData>({
     name: 'Sriram Suresh',
@@ -612,6 +624,32 @@ export default function UserProfileDashboard() {
                     value={profile.annualIncome}
                     onChange={(e) => setProfile({ ...profile, annualIncome: Number(e.target.value) })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-[#00E5CC] font-bold outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Date of Birth (DOB)</label>
+                  <input
+                    type="date"
+                    value={profile.dob}
+                    onChange={(e) => {
+                      const newDob = e.target.value;
+                      const computedAge = calculateAgeFromDOB(newDob);
+                      setProfile({ ...profile, dob: newDob, age: computedAge });
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-white outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Calculated Age</label>
+                  <input
+                    type="number"
+                    value={profile.age}
+                    readOnly
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-mono text-[#00E5CC] font-bold outline-none cursor-not-allowed"
                   />
                 </div>
               </div>

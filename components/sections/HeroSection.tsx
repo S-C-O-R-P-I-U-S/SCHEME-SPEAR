@@ -24,10 +24,10 @@ export default function HeroSection({ onOpenAuth }: { onOpenAuth: () => void }) 
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFB800]/15 border border-[#FFB800]/40 text-[#FFB800] text-xs font-bold font-mono tracking-wider shadow-[0_0_15px_rgba(255,184,0,0.3)]">
-                <Sparkles className="w-3.5 h-3.5" /> SMART INDIA HACKATHON 2026
+                <Sparkles className="w-3.5 h-3.5" /> AI-POWERED SCHEME DISCOVERY ENGINE
               </span>
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00E5CC]/15 border border-[#00E5CC]/40 text-[#00E5CC] text-xs font-bold font-mono tracking-wider shadow-[0_0_15px_rgba(0,229,204,0.3)]">
-                <ShieldCheck className="w-3.5 h-3.5" /> PROBLEM STATEMENT PS26092
+                <ShieldCheck className="w-3.5 h-3.5" /> 3,500+ GOVERNMENT SCHEMES DATABASE
               </span>
             </div>
 

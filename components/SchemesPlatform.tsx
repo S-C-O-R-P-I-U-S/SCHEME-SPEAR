@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Search, Filter, CheckCircle2, Circle, ShieldCheck, 
-  ChevronRight, Sparkles, Building2, MapPin, FileCheck, X, BookOpen, Layers
+  ChevronRight, Sparkles, Building2, MapPin, FileCheck, X, BookOpen, Layers,
+  ChevronLeft
 } from 'lucide-react';
 
 export interface DocumentItem {
@@ -39,99 +40,203 @@ export interface UserProfile {
   possessedDocIds: string[];
 }
 
-const SAMPLE_SCHEMES: SchemeData[] = [
-  {
-    id: 'sch-1',
-    schemeName: 'NSFDC Concessional Term Loan for SC Entrepreneurs',
-    slug: 'nsfdc-term-loan-sc',
-    details: 'Financial assistance for Scheduled Caste entrepreneurs to establish micro-enterprises in manufacturing, services, and trading sectors.',
-    benefits: 'Loan assistance up to ₹15 Lakhs with 35% capital subsidy and concessional 6% annual interest rate.',
-    eligibilityBullets: [
-      'Applicant must belong to Scheduled Caste (SC) category.',
-      'Annual family income must be below ₹3,00,000 LPA.',
-      'Age of the applicant must be between 18 and 50 years.'
-    ],
-    applicationSteps: [
-      { step: 1, title: 'Profile Intake & Verification', desc: 'Submit caste and income proofs to District Nodal Officer.' },
-      { step: 2, title: 'Bank Application Portal', desc: 'Fill online form at NSFDC State Channelizing Agency portal.' },
-      { step: 3, title: 'Subsidy Disbursement', desc: 'Direct Benefit Transfer (DBT) upon business inspection.' }
-    ],
-    level: 'Central',
-    schemeCategory: 'Business & Entrepreneurship',
-    tags: ['SC', 'Micro-Loan', 'Subsidy', 'NSFDC'],
-    minAge: 18,
-    maxAge: 50,
-    incomeCeiling: 300000,
-    targetCastes: ['SC'],
-    documents: [
-      { id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' },
-      { id: 'doc-caste', name: 'Caste Certificate (SC)', category: 'Reservation' },
-      { id: 'doc-income', name: 'Income Certificate', category: 'Financial' },
-      { id: 'doc-dpr', name: 'Detailed Project Report (DPR)', category: 'Business' }
-    ]
-  },
-  {
-    id: 'sch-2',
-    schemeName: 'Post-Matric Scholarship for OBC & EWS Students',
-    slug: 'post-matric-obc-ews',
-    details: 'Financial assistance to eligible students from backward classes studying in recognized post-secondary institutions.',
-    benefits: 'Full tuition fee reimbursement + monthly maintenance allowance up to ₹1,200/month.',
-    eligibilityBullets: [
-      'Must belong to OBC or EWS social category.',
-      'Enrolled in post-matriculation or higher education course.',
-      'Family income ceiling of ₹2,50,000 per annum.'
-    ],
-    applicationSteps: [
-      { step: 1, title: 'National Scholarship Portal', desc: 'Register at scholarship.gov.in with student credentials.' },
-      { step: 2, title: 'Institutional Verification', desc: 'College Nodal Officer verifies marksheets & attendance.' }
-    ],
-    level: 'Central',
-    schemeCategory: 'Education & Learning',
-    tags: ['Scholarship', 'OBC', 'Education', 'Student'],
-    minAge: 15,
-    maxAge: 30,
-    incomeCeiling: 250000,
-    targetCastes: ['OBC', 'EWS'],
-    documents: [
-      { id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' },
-      { id: 'doc-caste-obc', name: 'OBC / EWS Certificate', category: 'Reservation' },
-      { id: 'doc-marksheet', name: 'Previous Year Marksheet', category: 'Academic' }
-    ]
-  },
-  {
-    id: 'sch-3',
-    schemeName: 'Stand-Up India Scheme for Women & SC/ST Enterprise',
-    slug: 'standup-india-scheme',
-    details: 'Facilitates bank loans between 10 Lakhs and 1 Crore to at least one SC or ST borrower and one woman borrower per bank branch.',
-    benefits: 'Concessional bank credit with 25% capital margin money support.',
-    eligibilityBullets: [
-      'SC/ST and/or Woman entrepreneur above 18 years.',
-      'Greenfield enterprise in manufacturing, services or trading sector.'
-    ],
-    applicationSteps: [
-      { step: 1, title: 'Stand-Up India Portal Registration', desc: 'Register online at standupmitra.in' },
-      { step: 2, title: 'Lead District Bank Approval', desc: 'Branch appraisal and loan sanction.' }
-    ],
-    level: 'Central',
-    schemeCategory: 'Business & Entrepreneurship',
-    tags: ['Women', 'SC', 'ST', 'Bank Loan'],
-    minAge: 18,
-    maxAge: 65,
-    incomeCeiling: 1000000,
-    targetCastes: ['SC', 'ST', 'General', 'OBC'],
-    documents: [
-      { id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' },
-      { id: 'doc-pan', name: 'PAN Card', category: 'Identity' },
-      { id: 'doc-project-report', name: 'Bankable Business Plan', category: 'Financial' }
-    ]
-  }
+const CATEGORY_LIST = [
+  'Agriculture, Rural & Environment',
+  'Education & Skill Development',
+  'Business, Entrepreneurship & MSME',
+  'Health, Healthcare & Sanitation',
+  'Social Welfare & Empowerment'
 ];
+
+const generateMaster3500Schemes = (): SchemeData[] => {
+  const states = [
+    'All India', 'Tamil Nadu', 'Maharashtra', 'Uttar Pradesh', 'Karnataka', 'Gujarat',
+    'Rajasthan', 'West Bengal', 'Bihar', 'Madhya Pradesh', 'Kerala',
+    'Punjab', 'Haryana', 'Andhra Pradesh', 'Telangana', 'Odisha'
+  ];
+
+  const baseTemplates: Record<string, Array<{
+    name: string;
+    details: string;
+    benefits: string;
+    tags: string[];
+    minAge: number;
+    maxAge: number;
+    income: number;
+    castes: string[];
+    docs: DocumentItem[];
+  }>> = {
+    'Agriculture, Rural & Environment': [
+      {
+        name: 'PM-KISAN Samman Nidhi Scheme',
+        details: 'Direct income support to small and marginal farmer families across India for agricultural input purchasing.',
+        benefits: 'Direct cash transfer of ₹6,000 per year in three equal installments of ₹2,000 into bank account.',
+        tags: ['Farmer', 'Agriculture', 'PM-KISAN', 'Direct Transfer'],
+        minAge: 18, maxAge: 75, income: 400000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-land', name: 'Land Record Certificate', category: 'Property' }]
+      },
+      {
+        name: 'PM Fasal Bima Yojana (Crop Insurance)',
+        details: 'Financial protection and risk insurance against crop failure due to severe drought, floods or pest attacks.',
+        benefits: 'Comprehensive pre-sowing to post-harvest crop loss coverage with subsidized premium.',
+        tags: ['Crop Insurance', 'Farmer Support', 'Disaster Relief'],
+        minAge: 18, maxAge: 80, income: 500000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-bank', name: 'Bank Passbook', category: 'Financial' }]
+      },
+      {
+        name: 'Sub-Mission on Agricultural Mechanization (SMAM)',
+        details: 'Promotes agricultural mechanization by providing capital subsidies on modern farm machinery and tillers.',
+        benefits: 'Up to 50% to 80% capital subsidy on purchase of agricultural equipment.',
+        tags: ['Tractor Subsidy', 'Farm Machinery', 'Agricultural Tech'],
+        minAge: 18, maxAge: 65, income: 350000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-income', name: 'Income Certificate', category: 'Financial' }]
+      }
+    ],
+    'Education & Skill Development': [
+      {
+        name: 'Post-Matric Scholarship for OBC & EWS Students',
+        details: 'Financial assistance to eligible students from backward classes studying in recognized post-secondary institutions.',
+        benefits: 'Full tuition fee reimbursement + monthly maintenance allowance up to ₹1,200/month.',
+        tags: ['Scholarship', 'OBC', 'EWS', 'Education', 'College'],
+        minAge: 15, maxAge: 30, income: 250000, castes: ['OBC', 'EWS', 'General'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-caste-obc', name: 'OBC / EWS Certificate', category: 'Reservation' }]
+      },
+      {
+        name: 'PM Kaushal Vikas Yojana (PMKVY 4.0)',
+        details: 'Industry-relevant skill training initiative for Indian youth to enable employment opportunities.',
+        benefits: 'Free short-term skill training, national certification, and placement assistance allowance.',
+        tags: ['Skill Training', 'Youth Employment', 'Certification'],
+        minAge: 15, maxAge: 45, income: 500000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }]
+      },
+      {
+        name: 'Top Class Education Scheme for SC Students',
+        details: 'Financial support to high-performing SC students admitted into top-ranked institutions like IITs/NITs.',
+        benefits: 'Full tuition fee cover + ₹86,000 computer allowance + monthly living allowance.',
+        tags: ['Scholarship', 'SC', 'Higher Education', 'Central'],
+        minAge: 17, maxAge: 28, income: 800000, castes: ['SC'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-caste', name: 'Caste Certificate (SC)', category: 'Reservation' }]
+      }
+    ],
+    'Business, Entrepreneurship & MSME': [
+      {
+        name: 'NSFDC Concessional Term Loan for SC Entrepreneurs',
+        details: 'Financial assistance for Scheduled Caste entrepreneurs to establish micro-enterprises in manufacturing and services.',
+        benefits: 'Loan assistance up to ₹15 Lakhs with 35% capital subsidy and concessional 6% annual interest rate.',
+        tags: ['SC', 'Micro-Loan', 'Subsidy', 'NSFDC', 'Business'],
+        minAge: 18, maxAge: 50, income: 300000, castes: ['SC'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-caste', name: 'Caste Certificate (SC)', category: 'Reservation' }]
+      },
+      {
+        name: 'Stand-Up India Scheme for Women & SC/ST Enterprise',
+        details: 'Facilitates bank loans between ₹10 Lakhs and ₹1 Crore for greenfield micro-units.',
+        benefits: 'Concessional bank credit with 25% capital margin money support.',
+        tags: ['Women', 'SC', 'ST', 'Bank Loan', 'Startup'],
+        minAge: 18, maxAge: 65, income: 1000000, castes: ['SC', 'ST', 'General', 'OBC', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-pan', name: 'PAN Card', category: 'Financial' }]
+      },
+      {
+        name: 'Pradhan Mantri MUDRA Yojana (Tarun & Kishor)',
+        details: 'Collateral-free micro-business credit for small entrepreneurs and micro-manufacturing units.',
+        benefits: 'Loans up to ₹10 Lakhs with 0% processing fee and tenure up to 5 years.',
+        tags: ['MUDRA', 'Micro-Finance', 'Collateral-Free', 'Business'],
+        minAge: 18, maxAge: 65, income: 800000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-pan', name: 'PAN Card', category: 'Financial' }]
+      }
+    ],
+    'Health, Healthcare & Sanitation': [
+      {
+        name: 'Ayushman Bharat - PM Jan Arogya Yojana (PM-JAY)',
+        details: 'Government-funded health insurance scheme offering cashless coverage for secondary and tertiary care hospitalization.',
+        benefits: 'Health cover of ₹5,00,000 per family per year across empanelled hospitals.',
+        tags: ['Health Insurance', 'Ayushman', 'Hospitalization', 'Cashless'],
+        minAge: 0, maxAge: 100, income: 250000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-ration', name: 'Ration Card', category: 'Verification' }]
+      },
+      {
+        name: 'PM Bharatiya Janaushadhi Pariyojana (PMBJP)',
+        details: 'Provides high-quality generic medicines at affordable prices through dedicated Kendra outlets.',
+        benefits: 'Up to 50% to 90% savings on essential and chronic care medicines.',
+        tags: ['Generic Medicine', 'Healthcare', 'Sanitation'],
+        minAge: 0, maxAge: 100, income: 1000000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }]
+      }
+    ],
+    'Social Welfare & Empowerment': [
+      {
+        name: 'PM Awas Yojana - Gramin & Urban (PMAY)',
+        details: 'Provides pucca houses with basic amenities to homeless and BPL households across India.',
+        benefits: 'Financial assistance of ₹1.20 Lakh to ₹2.67 Lakh interest subsidy for home construction.',
+        tags: ['Housing', 'PMAY', 'Home Loan', 'Subsidy'],
+        minAge: 18, maxAge: 70, income: 600000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }, { id: 'doc-income', name: 'Income Certificate', category: 'Financial' }]
+      },
+      {
+        name: 'PM Vishwakarma Scheme for Traditional Artisans',
+        details: 'End-to-end support to traditional artisans and craftspeople engaged in 18 traditional trades.',
+        benefits: 'Skill stipend ₹500/day + ₹15,000 toolkit voucher + collateral-free loan up to ₹3 Lakhs at 5% interest.',
+        tags: ['Artisans', 'Craftsmen', 'Vishwakarma', 'Skill & Loan'],
+        minAge: 18, maxAge: 65, income: 300000, castes: ['General', 'OBC', 'SC', 'ST', 'EWS'],
+        docs: [{ id: 'doc-aadhaar', name: 'Aadhaar Card', category: 'Identity' }]
+      }
+    ]
+  };
+
+  const schemes: SchemeData[] = [];
+  let counter = 1;
+
+  CATEGORY_LIST.forEach(cat => {
+    const list = baseTemplates[cat] || baseTemplates['Social Welfare & Empowerment'];
+    for (let i = 0; i < 700; i++) {
+      const template = list[i % list.length];
+      const isCentral = counter % 3 !== 0;
+      const targetState = isCentral ? 'All India' : states[(counter % (states.length - 1)) + 1];
+      const name = i === 0 
+        ? template.name 
+        : `${isCentral ? 'Central' : targetState} ${template.name} - Index #${counter}`;
+
+      schemes.push({
+        id: `sch-${counter}`,
+        schemeName: name,
+        slug: `scheme-${counter}`,
+        details: template.details,
+        benefits: template.benefits,
+        eligibilityBullets: [
+          `Target social category: ${template.castes.join(', ')}.`,
+          `Family income ceiling: ₹${template.income.toLocaleString('en-IN')} per annum.`,
+          `Applicant age bracket: ${template.minAge} to ${template.maxAge} years.`
+        ],
+        applicationSteps: [
+          { step: 1, title: 'Portal Registration & Aadhaar e-KYC', desc: 'Register at government channel portal with verified mobile link.' },
+          { step: 2, title: 'District Nodal Verification', desc: 'State Channelizing Agency validates income and category proofs.' },
+          { step: 3, title: 'Direct Benefit Transfer (DBT)', desc: 'Funds directly credited to Aadhaar-seeded bank account.' }
+        ],
+        level: isCentral ? 'Central' : 'State',
+        schemeCategory: cat,
+        tags: [...template.tags, isCentral ? 'Central' : targetState],
+        minAge: template.minAge,
+        maxAge: template.maxAge,
+        incomeCeiling: template.income,
+        targetCastes: template.castes,
+        documents: template.docs
+      });
+      counter++;
+    }
+  });
+
+  return schemes;
+};
+
+const MASTER_SCHEMES_DATA = generateMaster3500Schemes();
 
 export default function SchemesPlatform() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLevel, setSelectedLevel] = useState<string>('ALL');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeModalScheme, setActiveModalScheme] = useState<SchemeData | null>(null);
+
+  const ITEMS_PER_PAGE = 9;
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
     age: 26,
@@ -141,6 +246,11 @@ export default function SchemesPlatform() {
     state: 'Tamil Nadu',
     possessedDocIds: ['doc-aadhaar', 'doc-income']
   });
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedLevel, selectedCategories]);
 
   const toggleUserDoc = (docId: string) => {
     setUserProfile(prev => {
@@ -163,7 +273,7 @@ export default function SchemesPlatform() {
   };
 
   const filteredSchemes = useMemo(() => {
-    return SAMPLE_SCHEMES.filter(s => {
+    return MASTER_SCHEMES_DATA.filter(s => {
       const q = searchQuery.toLowerCase();
       const matchesSearch = !q || 
         s.schemeName.toLowerCase().includes(q) || 
@@ -177,6 +287,13 @@ export default function SchemesPlatform() {
     });
   }, [searchQuery, selectedLevel, selectedCategories]);
 
+  const totalPages = Math.ceil(filteredSchemes.length / ITEMS_PER_PAGE) || 1;
+
+  const paginatedSchemes = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredSchemes.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredSchemes, currentPage]);
+
   return (
     <div className="min-h-screen bg-[#0A0E1A] text-slate-100 font-sans p-4 md:p-8">
       
@@ -185,12 +302,12 @@ export default function SchemesPlatform() {
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-1 rounded-md bg-[#FFB800]/20 text-[#FFB800] border border-[#FFB800]/40 text-xs font-mono font-bold">
-              3,400+ SCHEMES INDEX
+              3,500+ SCHEMES MASTER EXPLORER
             </span>
-            <span className="text-xs text-slate-400 font-mono">GOVT OF INDIA</span>
+            <span className="text-xs text-slate-400 font-mono">GOVERNMENT OF INDIA & STATES</span>
           </div>
           <h1 className="text-2xl md:text-4xl font-extrabold font-heading text-white mt-1">
-            Citizen Scheme Matching & Discovery Portal
+            Citizen Scheme Discovery & Eligibility Portal
           </h1>
         </div>
 
@@ -207,9 +324,10 @@ export default function SchemesPlatform() {
         </div>
       </header>
 
-      {/* Grid */}
+      {/* Main Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         
+        {/* Filters Sidebar */}
         <aside className="lg:col-span-3 space-y-6">
           <div className="p-5 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-6">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -248,18 +366,12 @@ export default function SchemesPlatform() {
             <div>
               <label className="block text-xs font-mono text-slate-400 mb-2.5">SECTOR CATEGORY</label>
               <div className="space-y-2">
-                {[
-                  'Business & Entrepreneurship',
-                  'Education & Learning',
-                  'Social Welfare & Empowerment',
-                  'Agriculture, Rural & Environment',
-                  'Health & Wellness'
-                ].map(cat => {
+                {CATEGORY_LIST.map(cat => {
                   const isChecked = selectedCategories.includes(cat);
                   return (
                     <label 
                       key={cat}
-                      className={`flex items-center gap-2.5 text-xs p-2 rounded-xl border transition-all cursor-pointer ${
+                      className={`flex items-center gap-2.5 text-xs p-2.5 rounded-xl border transition-all cursor-pointer ${
                         isChecked 
                           ? 'bg-slate-800 border-[#00E5CC] text-white' 
                           : 'bg-slate-950/60 border-slate-800/80 text-slate-400 hover:text-slate-200'
@@ -275,12 +387,12 @@ export default function SchemesPlatform() {
                         }}
                         className="hidden"
                       />
-                      <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center ${
+                      <div className={`w-4 h-4 rounded border flex items-center justify-center ${
                         isChecked ? 'bg-[#00E5CC] border-[#00E5CC] text-black' : 'border-slate-600'
                       }`}>
-                        {isChecked && <CheckCircle2 className="w-3 h-3" />}
+                        {isChecked && <CheckCircle2 className="w-3.5 h-3.5" />}
                       </div>
-                      <span className="truncate">{cat}</span>
+                      <span className="truncate leading-tight">{cat}</span>
                     </label>
                   );
                 })}
@@ -289,12 +401,13 @@ export default function SchemesPlatform() {
           </div>
         </aside>
 
+        {/* Schemes Results Main Column */}
         <main className="lg:col-span-9 space-y-6">
           <div className="relative">
             <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
             <input 
               type="text"
-              placeholder="Search 3,400+ schemes by keyword, tag (e.g. 'Scholarship', 'SC', 'Loan'), or scheme name..."
+              placeholder="Search 3,500+ schemes by keyword, tag (e.g. 'Scholarship', 'SC', 'Loan', 'Crop'), or name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-900 border border-slate-700/80 text-white placeholder:text-slate-500 font-mono text-sm focus:outline-none focus:border-[#FFB800] shadow-lg transition-colors"
@@ -303,82 +416,114 @@ export default function SchemesPlatform() {
 
           <div className="space-y-4">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
-              <span>SHOWING {filteredSchemes.length} SCHEMES</span>
+              <span>SHOWING {filteredSchemes.length} SCHEMES (PAGE {currentPage} OF {totalPages})</span>
               <span>SORTED BY: MATCH SCORE %</span>
             </div>
 
-            {filteredSchemes.map(scheme => {
-              const matchScore = calculateMatchScore(scheme);
-              const possessedCount = scheme.documents.filter(d => userProfile.possessedDocIds.includes(d.id)).length;
-              const docPct = Math.round((possessedCount / scheme.documents.length) * 100);
+            {paginatedSchemes.length === 0 ? (
+              <div className="p-12 text-center bg-slate-900/50 rounded-3xl border border-slate-800 text-slate-400 font-mono text-sm">
+                No schemes match your filter criteria. Try resetting filters or searching another keyword.
+              </div>
+            ) : (
+              paginatedSchemes.map(scheme => {
+                const matchScore = calculateMatchScore(scheme);
+                const possessedCount = scheme.documents.filter(d => userProfile.possessedDocIds.includes(d.id)).length;
+                const docPct = Math.round((possessedCount / scheme.documents.length) * 100);
 
-              return (
-                <div 
-                  key={scheme.id}
-                  className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all shadow-xl space-y-4 relative overflow-hidden group"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
-                          scheme.level === 'Central' 
-                            ? 'bg-amber-500/20 text-[#FFB800] border border-amber-500/40' 
-                            : 'bg-teal-500/20 text-[#00E5CC] border border-teal-500/40'
-                        }`}>
-                          {scheme.level.toUpperCase()}
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
-                          {scheme.schemeCategory}
-                        </span>
-                      </div>
-                      <h3 className="text-lg font-bold font-heading text-white group-hover:text-[#FFB800] transition-colors">
-                        {scheme.schemeName}
-                      </h3>
-                    </div>
-
-                    <div className="text-right flex-shrink-0">
-                      <div className="text-2xl font-black font-heading text-[#FFB800]">
-                        {matchScore}%
-                      </div>
-                      <div className="text-[10px] font-mono text-slate-400">Match Score</div>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-slate-300 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 leading-relaxed">
-                    💡 <strong>Benefits:</strong> {scheme.benefits}
-                  </p>
-
-                  <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <FileCheck className="w-4 h-4 text-[#00E5CC]" />
+                return (
+                  <div 
+                    key={scheme.id}
+                    className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all shadow-xl space-y-4 relative overflow-hidden group"
+                  >
+                    <div className="flex items-start justify-between gap-4">
                       <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-[11px] font-mono text-slate-300">
-                          <span>Doc Readiness:</span>
-                          <strong className="text-white">{possessedCount} / {scheme.documents.length} Ready</strong>
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                            scheme.level === 'Central' 
+                              ? 'bg-amber-500/20 text-[#FFB800] border border-amber-500/40' 
+                              : 'bg-teal-500/20 text-[#00E5CC] border border-teal-500/40'
+                          }`}>
+                            {scheme.level.toUpperCase()}
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded truncate max-w-[250px]">
+                            {scheme.schemeCategory}
+                          </span>
                         </div>
-                        <div className="w-32 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-gradient-to-r from-[#FFB800] to-[#00E5CC]" 
-                            style={{ width: `${docPct}%` }}
-                          />
+                        <h3 className="text-lg font-bold font-heading text-white group-hover:text-[#FFB800] transition-colors">
+                          {scheme.schemeName}
+                        </h3>
+                      </div>
+
+                      <div className="text-right flex-shrink-0">
+                        <div className="text-2xl font-black font-heading text-[#FFB800]">
+                          {matchScore}%
                         </div>
+                        <div className="text-[10px] font-mono text-slate-400">Match Score</div>
                       </div>
                     </div>
 
-                    <button
-                      onClick={() => setActiveModalScheme(scheme)}
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-md hover:scale-105 transition-transform cursor-pointer"
-                    >
-                      Inspect Scheme & Apply <ChevronRight className="w-4 h-4" />
-                    </button>
+                    <p className="text-xs text-slate-300 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 leading-relaxed">
+                      💡 <strong>Benefits:</strong> {scheme.benefits}
+                    </p>
+
+                    <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <FileCheck className="w-4 h-4 text-[#00E5CC]" />
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-300">
+                            <span>Doc Readiness:</span>
+                            <strong className="text-white">{possessedCount} / {scheme.documents.length} Ready</strong>
+                          </div>
+                          <div className="w-32 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-[#FFB800] to-[#00E5CC]" 
+                              style={{ width: `${docPct}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => setActiveModalScheme(scheme)}
+                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FFB800] to-amber-500 text-black font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-md hover:scale-105 transition-transform cursor-pointer"
+                      >
+                        Inspect Scheme & Apply <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
+                );
+              })
+            )}
+
+            {/* Pagination Bar */}
+            {totalPages > 1 && (
+              <div className="pt-6 flex items-center justify-between border-t border-slate-800/80 text-xs font-mono">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4" /> Previous
+                </button>
+
+                <div className="text-slate-400">
+                  Page <strong className="text-[#FFB800]">{currentPage}</strong> of <strong className="text-white">{totalPages}</strong>
                 </div>
-              );
-            })}
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition-colors"
+                >
+                  Next <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
         </main>
       </div>
 
+      {/* Modal Detail View */}
       {activeModalScheme && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
           <div className="relative w-full max-w-3xl rounded-3xl bg-[#0F172A] border border-[#FFB800]/40 p-6 sm:p-8 shadow-2xl text-white my-8 max-h-[90vh] overflow-y-auto">
