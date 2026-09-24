@@ -290,6 +290,22 @@
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
     }
+
+    /* Opening and Closing 3D Animations */
+    @keyframes loginOpen3D {
+      0% { opacity: 0; transform: scale(0.85) translateY(40px) rotateX(15deg); }
+      100% { opacity: 1; transform: scale(1) translateY(0) rotateX(0deg); }
+    }
+    @keyframes loginClose3D {
+      0% { opacity: 1; transform: scale(1) translateY(0) rotateX(0deg); }
+      100% { opacity: 0; transform: scale(1.08) translateY(-50px) rotateX(-15deg); }
+    }
+    .animate-login-open {
+      animation: loginOpen3D 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .animate-login-close {
+      animation: loginClose3D 0.45s ease-in-out forwards;
+    }
   </style>
 </head>
 <body class="day-mode antialiased selection:bg-[#EA580C] selection:text-white">
@@ -671,32 +687,40 @@
     </div>
   </footer>
 
-  <!-- 3D SLIDE AUTHENTICATION & CITIZEN INTAKE GATEWAY MODAL -->
-  <div id="intake-modal" class="fixed inset-0 z-[95] hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-    <div class="relative w-full max-w-xl perspective-1000 my-8">
+  <!-- FULL-SCREEN 3D ANIMATED LOGIN & CITIZEN GATEWAY PAGE -->
+  <div id="intake-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto transition-all duration-500">
+    <div id="login-box-container" class="relative w-full max-w-xl perspective-1000 my-auto animate-login-open">
       
-      <!-- 3D Flipping Card Container -->
-      <div id="auth-3d-card" class="relative w-full transform-style-3d shadow-2xl rounded-3xl bg-[#0F172A] border border-[#FFB800]/50 p-6 sm:p-8 text-white transition-all duration-700">
-        <button onclick="closeProfileIntake()" class="absolute top-4 right-4 z-20 text-slate-400 hover:text-white text-xl cursor-pointer">✕</button>
+      <!-- 3D Card Wrapper -->
+      <div id="auth-3d-card" class="relative w-full transform-style-3d shadow-[0_0_60px_rgba(2,132,199,0.3)] rounded-3xl bg-[#0F172A] border border-[#0284C7]/50 p-6 sm:p-8 text-white">
+        <button onclick="closeProfileIntakeWithAnimation()" class="absolute top-4 right-4 z-20 text-slate-400 hover:text-white text-xl cursor-pointer">✕</button>
+
+        <!-- PROMINENT UPLOADED LOGO AT THE TOP CENTER -->
+        <div class="flex flex-col items-center justify-center text-center mb-6">
+          <div id="login-logo-glow-ring" class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-[#0284C7] via-[#06B6D4] to-[#38BDF8] p-[3px] shadow-[0_0_35px_rgba(2,132,199,0.6)] hover:scale-105 transition-all duration-300 flex items-center justify-center mb-3">
+            <div id="login-logo-inner" class="w-full h-full bg-[#0A0E1A] rounded-[22px] flex items-center justify-center overflow-hidden p-1">
+              <img id="login-page-logo" src="assets/logo-night.jpg" alt="SCHEME SPEAR Official Logo" class="w-full h-full object-contain rounded-[18px] image-rendering-crisp" />
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-[#0284C7]/20 border border-[#0284C7]/40 text-[#38BDF8] text-[10px] font-mono font-bold tracking-widest uppercase">
+            SCHEME SPEAR OFFICIAL GATEWAY
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black font-heading tracking-tight text-white mt-1">
+            Citizen Authentication
+          </h2>
+          <p class="text-xs text-slate-400 font-mono">Team SCORPIUS • 3,500+ Welfare Schemes Portal</p>
+        </div>
 
         <!-- SIDE A: 🔑 QUICK CITIZEN LOGIN / OTP GATEWAY -->
-        <div id="auth-side-login" class="space-y-5">
-          <div class="text-center">
-            <span class="px-3 py-1 rounded-full bg-[#00E5CC]/10 border border-[#00E5CC]/30 text-[#00E5CC] text-xs font-mono font-bold uppercase tracking-wider">
-              PORTAL AUTHENTICATION
-            </span>
-            <h3 class="text-2xl font-bold font-heading mt-2">Citizen Login Gateway ⚡</h3>
-            <p class="text-xs text-slate-400 mt-1">Sign in with your mobile number or Google account to access 3,500+ Schemes</p>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-            <label class="block text-xs font-mono font-bold text-slate-300">ENTER MOBILE NUMBER (+91) FOR OTP</label>
-            <div class="flex items-center gap-2 rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5">
-              <span class="text-[#00E5CC] font-bold font-mono">+91</span>
-              <input type="tel" id="auth-phone-input" placeholder="80569 92589" maxLength="10" class="bg-transparent text-white outline-none w-full text-xs font-mono">
+        <div id="auth-side-login" class="space-y-4">
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+            <label class="block text-xs font-mono font-bold text-slate-300">ENTER MOBILE PHONE NUMBER (+91) FOR OTP</label>
+            <div class="flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-700 px-3.5 py-2.5">
+              <span class="text-[#38BDF8] font-bold font-mono">+91</span>
+              <input type="tel" id="auth-phone-input" placeholder="80569 92589" maxLength="10" value="8056992589" class="bg-transparent text-white outline-none w-full text-xs font-mono">
             </div>
-            <button onclick="handleMobileOtpLogin()" class="w-full py-3 rounded-xl bg-gradient-to-r from-[#00E5CC] to-teal-500 text-black font-extrabold text-xs shadow-lg hover:scale-[1.01] transition-transform cursor-pointer">
-              Verify OTP & Sign In 🚀
+            <button onclick="handleLoginAndCloseWith3D()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#06B6D4] text-white font-extrabold text-xs shadow-[0_0_20px_rgba(2,132,199,0.4)] hover:scale-[1.01] transition-transform cursor-pointer">
+              Verify OTP & Unlock Portal 🚀
             </button>
           </div>
 
@@ -708,10 +732,10 @@
 
           <div class="flex flex-col sm:flex-row gap-3">
             <button onclick="slide3dToRegister()" class="flex-1 py-3 px-4 rounded-xl bg-slate-900 border border-[#FFB800]/40 text-[#FFB800] font-bold text-xs hover:bg-slate-800 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md">
-              📝 Register / Edit Citizen Profile (3D Slide →)
+              📝 Register / Capture Details (3D Slide →)
             </button>
-            <button onclick="quickGuestLogin()" class="py-3 px-4 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 font-bold text-xs hover:bg-slate-700 transition-colors cursor-pointer">
-              Guest Demo 👤
+            <button onclick="handleLoginAndCloseWith3D()" class="py-3 px-4 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 font-bold text-xs hover:bg-slate-700 transition-colors cursor-pointer">
+              Explore Portal 👤
             </button>
           </div>
 
@@ -2021,13 +2045,48 @@
     renderDashboard();
 
     function openProfileIntake() {
-      document.getElementById('intake-modal').style.display = 'flex';
+      const page = document.getElementById('intake-modal');
+      const box = document.getElementById('login-box-container');
+      if (page && box) {
+        box.classList.remove('animate-login-close');
+        box.classList.add('animate-login-open');
+        page.style.display = 'flex';
+        page.style.opacity = '1';
+      }
     }
+
+    function closeProfileIntakeWithAnimation() {
+      const page = document.getElementById('intake-modal');
+      const box = document.getElementById('login-box-container');
+      if (box) {
+        box.classList.remove('animate-login-open');
+        box.classList.add('animate-login-close');
+      }
+      setTimeout(() => {
+        if (page) page.style.display = 'none';
+      }, 480);
+    }
+
     function closeProfileIntake() {
-      document.getElementById('intake-modal').style.display = 'none';
+      closeProfileIntakeWithAnimation();
     }
+
+    function handleLoginAndCloseWith3D() {
+      const phoneVal = document.getElementById('auth-phone-input')?.value || '8056992589';
+      currentProfile.phone = phoneVal;
+      localStorage.setItem('scorpius_logged_in_user', JSON.stringify(currentProfile));
+      renderUserNav();
+      renderDashboard();
+      renderExplorerGrid();
+      closeProfileIntakeWithAnimation();
+    }
+
     function saveProfileIntake(e) {
-      e.preventDefault();
+      saveProfileAndClose3D(e);
+    }
+
+    function saveProfileAndClose3D(e) {
+      if (e) e.preventDefault();
       const dobVal = document.getElementById('p-dob').value;
       const dobDate = new Date(dobVal);
       const calculatedAge = Math.abs(new Date(Date.now() - dobDate.getTime()).getUTCFullYear() - 1970);
@@ -2049,7 +2108,7 @@
       renderUserNav();
       renderDashboard();
       renderExplorerGrid();
-      closeProfileIntake();
+      closeProfileIntakeWithAnimation();
     }
 
     // 3D SLIDE & FLIP AUTHENTICATION FUNCTIONS
@@ -2081,20 +2140,11 @@
     }
 
     function handleMobileOtpLogin() {
-      const phoneVal = document.getElementById('auth-phone-input')?.value || '8056992589';
-      currentProfile.phone = phoneVal;
-      localStorage.setItem('scorpius_logged_in_user', JSON.stringify(currentProfile));
-      renderUserNav();
-      renderDashboard();
-      renderExplorerGrid();
-      closeProfileIntake();
+      handleLoginAndCloseWith3D();
     }
 
     function quickGuestLogin() {
-      localStorage.setItem('scorpius_logged_in_user', JSON.stringify(currentProfile));
-      renderUserNav();
-      renderDashboard();
-      closeProfileIntake();
+      handleLoginAndCloseWith3D();
     }
 
     // Auto-prompt 3D login gate on first visit
@@ -2103,7 +2153,7 @@
       if (!loggedUser) {
         setTimeout(() => {
           openProfileIntake();
-        }, 600);
+        }, 500);
       }
     });
 
@@ -2145,6 +2195,9 @@
       const logoInner = document.getElementById('logo-inner-box');
       const logoText = document.getElementById('logo-text-heading');
       const logoBadge = document.getElementById('logo-badge');
+      const loginPageLogo = document.getElementById('login-page-logo');
+      const loginLogoRing = document.getElementById('login-logo-glow-ring');
+      const loginLogoInner = document.getElementById('login-logo-inner');
 
       if (theme === 'day') {
         document.body.classList.remove('night-mode');
@@ -2153,14 +2206,20 @@
           btn.innerHTML = '☀️ Day Mode (White & Orange)';
           btn.className = 'px-3.5 py-2 rounded-xl border border-orange-300 bg-orange-50 text-xs font-mono font-bold text-orange-900 hover:border-orange-500 transition-all cursor-pointer flex items-center gap-1.5 shadow-md';
         }
-        if (logoImg) {
-          logoImg.src = 'assets/logo-day.jpg';
-        }
+        if (logoImg) logoImg.src = 'assets/logo-day.jpg';
+        if (loginPageLogo) loginPageLogo.src = 'assets/logo-day.jpg';
+
         if (logoRing) {
           logoRing.className = 'w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#EA580C] via-[#F97316] to-amber-400 p-[2px] shadow-[0_4px_18px_rgba(234,88,12,0.25)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
         }
+        if (loginLogoRing) {
+          loginLogoRing.className = 'w-20 h-20 rounded-3xl bg-gradient-to-tr from-[#EA580C] via-[#F97316] to-amber-400 p-[3px] shadow-[0_4px_25px_rgba(234,88,12,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center mb-3';
+        }
         if (logoInner) {
           logoInner.className = 'w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden p-0.5';
+        }
+        if (loginLogoInner) {
+          loginLogoInner.className = 'w-full h-full bg-white rounded-[22px] flex items-center justify-center overflow-hidden p-1';
         }
         if (logoText) {
           logoText.className = 'font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-slate-900 via-orange-700 to-[#EA580C] bg-clip-text text-transparent';
@@ -2176,14 +2235,20 @@
           btn.innerHTML = '🌊 Night Mode (Black & Ocean Blue)';
           btn.className = 'px-3.5 py-2 rounded-xl border border-sky-800 bg-slate-900 text-xs font-mono font-bold text-sky-300 hover:border-sky-400 transition-all cursor-pointer flex items-center gap-1.5 shadow-md';
         }
-        if (logoImg) {
-          logoImg.src = 'assets/logo-night.jpg';
-        }
+        if (logoImg) logoImg.src = 'assets/logo-night.jpg';
+        if (loginPageLogo) loginPageLogo.src = 'assets/logo-night.jpg';
+
         if (logoRing) {
           logoRing.className = 'w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0284C7] via-[#06B6D4] to-[#38BDF8] p-[2px] shadow-[0_0_20px_rgba(2,132,199,0.45)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center overflow-hidden';
         }
+        if (loginLogoRing) {
+          loginLogoRing.className = 'w-20 h-20 rounded-3xl bg-gradient-to-tr from-[#0284C7] via-[#06B6D4] to-[#38BDF8] p-[3px] shadow-[0_0_35px_rgba(2,132,199,0.6)] hover:scale-105 transition-all duration-300 flex items-center justify-center mb-3';
+        }
         if (logoInner) {
           logoInner.className = 'w-full h-full bg-[#0A0E1A] rounded-[14px] flex items-center justify-center overflow-hidden p-0.5';
+        }
+        if (loginLogoInner) {
+          loginLogoInner.className = 'w-full h-full bg-[#0A0E1A] rounded-[22px] flex items-center justify-center overflow-hidden p-1';
         }
         if (logoText) {
           logoText.className = 'font-extrabold font-heading text-lg tracking-tight bg-gradient-to-r from-white via-sky-200 to-cyan-400 bg-clip-text text-transparent';
