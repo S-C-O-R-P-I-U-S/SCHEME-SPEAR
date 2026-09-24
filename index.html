@@ -306,6 +306,22 @@
     .animate-login-close {
       animation: loginClose3D 0.45s ease-in-out forwards;
     }
+
+    /* 3D Slide-In Animations (Forward Facing - No Mirror Text!) */
+    @keyframes slideInRight3D {
+      0% { opacity: 0; transform: translateX(50px) scale(0.95); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes slideInLeft3D {
+      0% { opacity: 0; transform: translateX(-50px) scale(0.95); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    .animate-slide-in-right {
+      animation: slideInRight3D 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .animate-slide-in-left {
+      animation: slideInLeft3D 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
   </style>
 </head>
 <body class="day-mode antialiased selection:bg-[#EA580C] selection:text-white">
@@ -2114,20 +2130,20 @@
       closeProfileIntakeWithAnimation();
     }
 
-    // 3D SLIDE & FLIP AUTHENTICATION FUNCTIONS
+    // 3D SLIDE AUTHENTICATION FUNCTIONS (Forward Facing - Zero Mirror Text Bug!)
     function slide3dToRegister() {
       const card = document.getElementById('auth-3d-card');
       const sideLogin = document.getElementById('auth-side-login');
       const sideRegister = document.getElementById('auth-side-register');
 
-      if (card) card.style.transform = 'rotateY(180deg)';
-      setTimeout(() => {
-        if (sideLogin) sideLogin.classList.add('hidden');
-        if (sideRegister) {
-          sideRegister.classList.remove('hidden');
-          sideRegister.style.transform = 'rotateY(180deg)';
-        }
-      }, 300);
+      if (card) card.style.transform = 'none'; // Keep container 100% upright!
+      if (sideLogin) sideLogin.classList.add('hidden');
+      if (sideRegister) {
+        sideRegister.classList.remove('hidden');
+        sideRegister.classList.remove('animate-slide-in-left');
+        sideRegister.classList.add('animate-slide-in-right');
+        sideRegister.style.transform = 'none';
+      }
     }
 
     function slide3dToLogin() {
@@ -2135,11 +2151,14 @@
       const sideLogin = document.getElementById('auth-side-login');
       const sideRegister = document.getElementById('auth-side-register');
 
-      if (card) card.style.transform = 'rotateY(0deg)';
-      setTimeout(() => {
-        if (sideRegister) sideRegister.classList.add('hidden');
-        if (sideLogin) sideLogin.classList.remove('hidden');
-      }, 300);
+      if (card) card.style.transform = 'none'; // Keep container 100% upright!
+      if (sideRegister) sideRegister.classList.add('hidden');
+      if (sideLogin) {
+        sideLogin.classList.remove('hidden');
+        sideLogin.classList.remove('animate-slide-in-right');
+        sideLogin.classList.add('animate-slide-in-left');
+        sideLogin.style.transform = 'none';
+      }
     }
 
     function handleMobileOtpLogin() {
