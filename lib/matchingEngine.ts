@@ -153,7 +153,7 @@ export function matchSchemesForProfile(profile: UserProfile): MatchedScheme[] {
     }
 
     const finalScore = Math.min(99, Math.max(45, score));
-    const isEligible = finalScore >= 80 ? 'Eligible' : finalScore >= 60 ? 'Conditional' : 'Ineligible';
+    const isEligible: 'Eligible' | 'Conditional' | 'Ineligible' = finalScore >= 80 ? 'Eligible' : finalScore >= 60 ? 'Conditional' : 'Ineligible';
 
     const netPrincipalAfterSubsidy = s.maxLoan * (1 - s.baseSubsidy / 100);
     const emi = calculateEmi(netPrincipalAfterSubsidy, s.interestRate, s.tenure);

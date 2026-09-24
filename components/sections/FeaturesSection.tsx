@@ -35,9 +35,9 @@ export default function FeaturesSection() {
 
         {/* 7 Glassmorphic 3D Tilt Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SITE_DATA.features.map((feat, idx) => {
+          {SITE_DATA.features.map((feat: { id: string; title: string; subtitle?: string; highlight?: string; icon: string; iconName?: string; desc?: string; description?: string; badge: string; tag?: string; color: string }, idx: number) => {
             const isGold = idx % 2 === 0;
-            const emojiIcon = featureIcons[feat.iconName] || '⚡';
+            const emojiIcon = featureIcons[feat.iconName || feat.icon] || '⚡';
 
             return (
               <motion.div
@@ -60,7 +60,7 @@ export default function FeaturesSection() {
                         </div>
                       </div>
                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                        {feat.tag}
+                        {feat.badge || feat.tag}
                       </span>
                     </div>
 
@@ -69,7 +69,7 @@ export default function FeaturesSection() {
                       {feat.title}
                     </h3>
                     <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
-                      {feat.description}
+                      {feat.desc || feat.description}
                     </p>
                   </div>
 
@@ -77,7 +77,7 @@ export default function FeaturesSection() {
                   <div className="pt-4 border-t border-slate-800/80 flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${isGold ? 'bg-[#FFB800] shadow-[0_0_8px_#FFB800]' : 'bg-[#00E5CC] shadow-[0_0_8px_#00E5CC]'}`} />
                     <span className="text-xs font-mono font-semibold text-slate-300">
-                      {feat.highlight}
+                      {feat.subtitle || feat.highlight}
                     </span>
                   </div>
                 </TiltCard>

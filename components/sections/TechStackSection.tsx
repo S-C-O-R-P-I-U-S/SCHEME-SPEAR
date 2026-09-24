@@ -46,12 +46,13 @@ export default function TechStackSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {SITE_DATA.techStack.map((tech: TechItem, idx: number) => {
             const IconComponent = techIconMap[tech.icon] || Cpu;
-            const isFlipped = !!flippedCards[tech.name];
+            const techName = tech.name || tech.title;
+            const isFlipped = !!flippedCards[techName];
 
             return (
               <div
-                key={tech.name}
-                onClick={() => toggleFlip(tech.name)}
+                key={techName}
+                onClick={() => toggleFlip(techName)}
                 className="h-56 cursor-pointer group perspective-1000"
               >
                 <motion.div
@@ -62,12 +63,12 @@ export default function TechStackSection() {
                   {/* FRONT SIDE */}
                   <div className="absolute inset-0 rounded-3xl bg-slate-900/80 backdrop-blur-xl border border-slate-700/80 p-6 flex flex-col justify-between items-center text-center backface-hidden shadow-lg group-hover:border-[#FFB800] transition-colors">
                     <div className="w-14 h-14 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center p-2 shadow-inner">
-                      <IconComponent className="w-8 h-8" style={{ color: tech.color }} />
+                      <IconComponent className="w-8 h-8" style={{ color: tech.color || '#FFB800' }} />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-white font-heading">{tech.name}</h3>
+                      <h3 className="text-base font-bold text-white font-heading">{techName}</h3>
                       <span className="text-[10px] font-mono text-[#00E5CC] uppercase tracking-wider block mt-1">
-                        {tech.category} • {tech.role}
+                        {tech.category} • {tech.role || tech.tech}
                       </span>
                     </div>
                     <div className="flex items-center gap-1 text-[10px] font-mono text-slate-400">
@@ -81,7 +82,7 @@ export default function TechStackSection() {
                       ARCHITECTURAL ROLE
                     </span>
                     <p className="text-xs text-slate-200 leading-relaxed font-sans">
-                      {tech.details}
+                      {tech.desc || tech.details}
                     </p>
                     <span className="px-2.5 py-1 rounded-full bg-[#00E5CC]/20 text-[#00E5CC] text-[10px] font-mono font-bold">
                       VERIFIED STACK

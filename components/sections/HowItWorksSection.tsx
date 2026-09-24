@@ -93,7 +93,7 @@ export default function HowItWorksSection({ onOpenAuth }: { onOpenAuth: () => vo
                 <div className="md:col-span-8 space-y-4 text-left">
                   <div>
                     <span className="text-xs font-mono text-[#00E5CC] uppercase tracking-wider">
-                      {current.subtitle}
+                      {current.subtitle || current.detail}
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white mt-1">
                       {current.title}
@@ -101,7 +101,7 @@ export default function HowItWorksSection({ onOpenAuth }: { onOpenAuth: () => vo
                   </div>
 
                   <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                    {current.description}
+                    {current.desc || current.description}
                   </p>
 
                   <div className="pt-4 flex flex-wrap items-center gap-4">

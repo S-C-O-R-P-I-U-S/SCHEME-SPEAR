@@ -14,7 +14,7 @@ const tabIconMap: Record<string, React.ElementType> = {
 };
 
 export default function FeasibilitySection() {
-  const [activeTab, setActiveTab] = useState<string>('tech');
+  const [activeTab, setActiveTab] = useState<string>(SITE_DATA.feasibility[0]?.id || 'scalability');
 
   return (
     <section id="feasibility" className="py-24 relative z-10">
@@ -57,7 +57,7 @@ export default function FeasibilitySection() {
 
         {/* Tab Content Display */}
         {(() => {
-          const current = SITE_DATA.feasibility.find((f) => f.id === activeTab)!;
+          const current = SITE_DATA.feasibility.find((f) => f.id === activeTab) || SITE_DATA.feasibility[0];
 
           return (
             <motion.div

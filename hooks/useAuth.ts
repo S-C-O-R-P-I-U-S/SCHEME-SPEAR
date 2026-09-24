@@ -10,6 +10,7 @@ export interface User {
   phone?: string;
   authMethod: 'google' | 'phone';
   profile: UserProfile;
+  avatar?: string;
 }
 
 const defaultProfile: UserProfile = {
@@ -57,6 +58,7 @@ export function useAuth() {
       name: 'Sriram Suresh',
       email: 'sriramsuresh.tech@gmail.com',
       authMethod: 'google',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250',
       profile: user?.profile || defaultProfile,
     };
     saveUserToStorage(googleUser);
@@ -74,6 +76,7 @@ export function useAuth() {
       name: `Entrepreneur (+91 ${phone.slice(-4)})`,
       phone: `+91 ${phone}`,
       authMethod: 'phone',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250',
       profile: {
         ...defaultProfile,
         phone: phone,
