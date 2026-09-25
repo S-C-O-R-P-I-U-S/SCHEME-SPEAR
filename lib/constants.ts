@@ -488,8 +488,8 @@ export const SITE_DATA = {
     {
       id: 'feat-rag',
       title: 'Sub-50ms AI Scheme Matcher',
-      subtitle: 'Instant Filtering',
-      icon: 'Search',
+      subtitle: 'Instant Client-Side Filtering',
+      icon: 'Sparkles',
       desc: 'Matches 3,500+ Central and State welfare schemes instantly based on citizen demographics, caste category, income LPA, and trade type.',
       badge: 'RAG ENGINE',
       color: 'gold'
@@ -507,10 +507,46 @@ export const SITE_DATA = {
       id: 'feat-locker',
       title: 'Document Readiness Locker',
       subtitle: 'Checklist Verification',
-      icon: 'CheckSquare',
+      icon: 'FileCheck',
       desc: 'Interactive checklist verifying mandatory application documents (Aadhaar, Caste Certificate, Income Certificate, DPR, Bank Passbook).',
       badge: 'DOCUMENTATION',
       color: 'purple'
+    },
+    {
+      id: 'feat-banks',
+      title: 'Geolocation Bank Finder',
+      subtitle: 'Welfare Loan Router',
+      icon: 'MapPin',
+      desc: 'Locates authorized public sector bank branches (SBI, Bank of Baroda, Canara, PNB, Indian Bank) nearby with IFSC and Nodal Officers.',
+      badge: 'GEOLOCATION',
+      color: 'gold'
+    },
+    {
+      id: 'feat-nodal',
+      title: 'District Nodal Officer Desk',
+      subtitle: 'Direct SCA Mapping',
+      icon: 'Compass',
+      desc: 'Connects beneficiaries directly with assigned District SC/ST Nodal Officers for application scrutiny and consultation.',
+      badge: 'NODAL ROUTING',
+      color: 'teal'
+    },
+    {
+      id: 'feat-portal',
+      title: 'In-Website Direct Application',
+      subtitle: '1-Click Application & Tracker',
+      icon: 'TrendingUp',
+      desc: 'Generates official application IDs (e.g. APP-2026-8941) with live 4-stage milestone progress board.',
+      badge: 'DIRECT APPLY',
+      color: 'purple'
+    },
+    {
+      id: 'feat-guidance',
+      title: 'Clear Eligibility & Gap Analysis',
+      subtitle: 'Plain-Language Advice',
+      icon: 'CheckCircle2',
+      desc: 'Real-time pass/fail indicators for age, income, and quota constraints, with plain-language recommendations for missing criteria.',
+      badge: 'GAP ANALYSIS',
+      color: 'gold'
     }
   ],
   architecture: [
